@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_dots_invoice_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+
+                            <div class="row">
+                                <div class="col-4 offset-4 text-center pt-5">
+                                    <h6>VAT INVOICE | فاتورة ضريبية</h6>
+                                    <h6>VAT No.
+                                        <span t-field="doc.company_id.vat"/>
+                                        الرقم الضريبي
+                                    </h6>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <img t-att-src="'/report/barcode/QR/'+doc.l10n_sa_qr_code_str" width="150px"
+                                         height="150px" class="text-end"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>Invoice Date | تاريخ الفاتورة</td>
+                                                <td>
+                                                    <span t-field="doc.invoice_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Payment Method | طريقة الدفع</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Delivery Note | مذكرة التسليم</td>
+                                                <td>
+                                                    <span t-field="doc.stock_picking_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Delivery Date | تاريخ التسليم</td>
+                                                <td>
+                                                    <span t-field="doc.delivery_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Project No. | رقم المشروع</td>
+                                                <td>
+                                                    <span t-field="doc.sale_order_id.inquiry_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PO No. | رقم طلب الشراء</td>
+                                                <td>
+                                                    <span t-field="doc.sale_order_id.customer_po_no"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PO Date | تاريخ طلب الشراء</td>
+                                                <td>
+                                                    <span t-field="doc.sale_order_id.date_order"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Currency | العملة</td>
+                                                <td>
+                                                    <span t-field="doc.currency_id.name"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm table-bordered text-end">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                                <td>Invoice No. | رقم الفاتورة</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.partner_id"/>
+                                                </td>
+                                                <td>Customer Name | اسم العميل</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.partner_id.vat"/>
+                                                </td>
+                                                <td>Customer Vat No. | الرقم الضريبي للعميل</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.partner_id.commercial_company_name"/>
+                                                </td>
+                                                <td>Address | العنوان</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.partner_id.fax"/>
+                                                </td>
+                                                <td>Fax | الفاكس</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.partner_id.phone"/>
+                                                </td>
+                                                <td>Tel | الهاتف</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <td>SL<br/>م
+                                                </td>
+                                                <td>Code<br/>الكود
+                                                </td>
+                                                <td>Description<br/>وصف البند
+                                                </td>
+                                                <td>QTY<br/>الكمية
+                                                </td>
+                                                <td>Unit Price<br/>سعر الوحدة
+                                                </td>
+                                                <td>Amount Before VAT<br/>اﻹجمالي ق.ض.م
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-field="line.product_id.default_code"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.description"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-field="line.quantity"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-field="line.price_unit"/>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span t-field="line.price_subtotal"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_dots_invoice" model="ir.actions.report">
+            <field name="name">DOTS Invoice</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_dots_invoice_view</field>
+            <field name="report_file">inquiry.report_dots_invoice_view</field>
+            <field name="binding_model_id" ref="model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('Invoice-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

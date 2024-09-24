@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_view_order_form_inherit" model="ir.ui.view">
+            <field name="name">inquiry.view.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="partner_rfq_ref_no"/>
+                    <field name="rfq_ref_date"/>
+                    <field name="material_provided_by"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="inquiry_id" readonly="1"/>
+                    <field name="customer_po_no"/>
+                    <!--                    <field name="customer_po_date" />-->
+                    <field name="customer_po_file"/>
+                </xpath>
+
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                    <field name="inquiry_id" column_invisible="1"/>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Others">
+                        <group>
+                            <field name="sale_manager_id"/>
+                            <field name="sale_post_review" string="Sales Post Order Review"/>
+                            <field name="sale_post_review_comment"/>
+
+                            <field name="technical_manager_id"/>
+                            <field name="technical_post_review" string="Technical Post Order Review"/>
+                            <field name="technical_post_review_comment"/>
+
+                            <field name="operation_manager_id"/>
+                            <field name="operation_post_review" string="Operation Post Order Review"/>
+                            <field name="operation_post_review_comment"/>
+
+                            <field name="qa_qc_manager_id"/>
+                            <field name="qa_qc_post_review" string="QA/QC Post Order Review"/>
+                            <field name="qa_qc_post_review_comment"/>
+
+                            <field name="pr_manager_id" string="Supplychain"/>
+                            <field name="pr_post_review" string="Supplychain Post Order Review"/>
+                            <field name="pr_post_review_comment"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

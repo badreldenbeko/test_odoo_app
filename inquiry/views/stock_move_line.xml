@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_view_stock_move_line_operation_tree_expiry" model="ir.ui.view">
+            <field name="name">stock.move.line.inherit.tree</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_name']" position="after">
+                    <field name="heat_no"/>
+<!--                    <field name="heat_no" column_invisible="parent.has_tracking == 'none'" required="parent.has_tracking != 'none'"/>-->
+                </xpath>
+            </field>
+        </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_view_production_lot_form_inherit" model="ir.ui.view">
+            <field name="name">inquiry.view.production.lot.form</field>
+            <field name="model">stock.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="heat_no"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="inquiry_view_production_lot_kanban_inherit" model="ir.ui.view">
+            <field name="name">inquiry.view.production.lot.kanban.inherit</field>
+            <field name="model">stock.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="heat_no"/>
+                </xpath>
+
+                <xpath expr="//div[@name='product_name']" position="after">
+                    <div>
+                        <div>
+                            <label for="expiration_date">Heat No.: </label>
+                            <field name="heat_no"/>
+                        </div>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_mrp_routing_workcenter_form_inherit" model="ir.ui.view">
+            <field name="name">inquiry.mrp.routing.workcenter.form.inherit</field>
+            <field name="model">mrp.routing.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='blocked_by_operation_ids']" position="after">
+                    <field name="responsible" invisible="1"/>
+                    <field name="department_id"/>
+                    <field name="drawing_no"/>
+                    <field name="work_instructions"/>
+                    <field name="acceptance_criteria"/>
+                    <field name="qc_intervention"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

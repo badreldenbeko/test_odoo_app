@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_design_development_view_tree" model="ir.ui.view">
+            <field name="name">inquiry.design.development.view.tree</field>
+            <field name="model">design.development</field>
+            <field name="arch" type="xml">
+                <tree string="design_development_tree" editable="top">
+                    <field name="name"/>
+                    <field name="selection_label"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="inquiry_design_development_action" model="ir.actions.act_window">
+            <field name="name">Design &amp; Development</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">design.development</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_pr_purchase_order_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h3 class="text-center mb-2">Purchase Order</h3>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td width="25%">
+                                                    <strong>PO#:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <strong>Date:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.date_approve"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>DOT PR#:</strong>
+                                                </td>
+                                                <td colspan="3">
+                                                    <span t-field="doc.por_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Vendor:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.partner_id"/>
+                                                </td>
+                                                <td>
+                                                    <strong>Ship To:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.picking_type_id"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col-6 me-1">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>Tel</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.phone"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mob</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.mobile"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.email"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>P.Box No.</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.p_box_no"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>City</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.city"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Country</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.country_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Zip Code</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.zip"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>FAX No</td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.fax"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6 ms-1">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>Tel</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.phone"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mob</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.mobile"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.email"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>P.Box No.</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.p_box_no"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>City</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.city"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Country</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.country_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Zip Code</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.zip"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>FAX No</td>
+                                                <td>
+                                                    <span t-field="doc.company_id.fax"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <p>Please supply the following items, subject to terms and conditions included here
+                                        in.
+                                    </p>
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    <strong>Quotation Ref:</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Delivery Time:</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>INCOTerms:</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Mode of Shipping:</strong>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.date_planned"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.incoterm_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.mode_of_shipping"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    <strong>S/N</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Item No.</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Description</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Brand/Part No</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Qty</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>UOM</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>U/PRICE (SAR)</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Total Price</strong>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.order_line" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.barcode"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td/>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_uom"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.price_unit"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.price_subtotal"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td colspan="6" class="text-end">
+                                                    <strong>Ex-Works/FOB Price</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" class="text-end">
+                                                    <strong>Less: Discount %</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" class="text-end">
+                                                    <strong>Add: Legalization/Freight/Handling etc</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" class="text-end">
+                                                    <strong>VAT 15%</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.amount_tax"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6" class="text-end">
+                                                    <strong>Total: EX DAMMAM</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.amount_total"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Terms and Conditions:</h5>
+                                    <p>1- Order must be delivered or rendered as per description and if there have been
+                                        any changes, it must be revised or coordinated only with Procurement Department.
+                                    </p>
+                                    <p>2- Purchase Order must be acknowledged immediately. In case there has been no
+                                        acknowledgement or query within three days from the date of purchase order
+                                        submission, it is therefore confirmed valid
+                                    </p>
+                                    <p>3- Purchase Order must be mentioned in the invoice and delivery note or timesheet
+                                        / Job Summary / Progress Report.
+                                    </p>
+                                    <p>4- In case the delivery term is Ex Work or Ex Factory, it is the obligation of
+                                        the supplier to coordinate with the procurement team regarding the store stamp
+                                        of delivery note, and the details of the delivery.
+                                    </p>
+                                    <p>5- All applicable inspection &amp; Test documents that include MTCs, COC, Third
+                                        party
+                                        witness reports, Packing List, MSDS and Flame Test Certificate shall be provided
+                                        along with the delivery, as applicable.
+                                    </p>
+                                    <p>6- All necessary QC documents should send to Concerned Buyer (procurement) and
+                                        get it approved before proceeding the delivery if required, Otherwise our store
+                                        will not receive the materials and shall be rejected the same time
+                                    </p>
+                                    <p>7- Invoice must be submitted along with the below requirement:
+                                        Purchase Order, Delivery note with store stamp along with the employee ID,
+                                        contact number and full name.
+                                    </p>
+                                    <p>8- Invoice shall be submitted within 15 Days after Delivery / Job Completion.</p>
+                                    <p>9- Goods and performance of Services shall be subject to right of inspection. In
+                                        case of any rejection DOT will notify the supplier within thirty (30) Days after
+                                        delivery.
+                                    </p>
+                                    <p>11- Any rejection of the material shall be replaced with genuine material.</p>
+                                    <p>12-Origional Invoice must be submitted at Dynamic Oil Tools Building, Finance
+                                        Department.
+                                    </p>
+                                    <p>13- Material Specification Ref: DOT Material Specs.</p>
+                                    <p>14- Supplier must obtain prior written permission from the purchaser before
+                                        changing any material or specification.
+                                    </p>
+                                    <p>15- Purchaser reserves the right to return / reject any material / service which
+                                        fail to comply the specifications / instructions or other
+                                        requirement mentioned in this order. Material / Service which are found to be
+                                        inferior quality or poor workmanship will also be
+                                        returned / rejected. Such material / service will be returned to the supplier /
+                                        contractor at supplier’s / contractor’s risk and expense,
+                                        and supplier / contractor will reimburse the purchaser for all prior payment and
+                                        / or cost incurred in returning / rejecting such material
+                                        / service.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="2">For Supplier:</td>
+                                                <td colspan="2">For Dynamic Oil Tools:</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Name &amp; Title:</td>
+                                                <td>Date:</td>
+                                                <td>General Manager</td>
+                                                <td>Date:</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_pr_purchase_order" model="ir.actions.report">
+            <field name="name">PR-Purchase Request</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_pr_purchase_order_view</field>
+            <field name="report_file">inquiry.report_pr_purchase_order_view</field>
+            <field name="binding_model_id" ref="model_purchase_order"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('Purchase Order-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

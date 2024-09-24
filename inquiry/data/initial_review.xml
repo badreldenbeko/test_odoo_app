@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="design" model="initial.review">
+            <field name="name">
+                Design
+            </field>
+        </record>
+
+        <record id="material" model="initial.review">
+            <field name="name">
+                Material
+            </field>
+        </record>
+
+        <record id="tools" model="initial.review">
+            <field name="name">
+                Tools
+            </field>
+        </record>
+
+        <record id="personnel" model="initial.review">
+            <field name="name">
+                Personnel
+            </field>
+        </record>
+
+        <record id="machinery" model="initial.review">
+            <field name="name">
+                Machinery
+            </field>
+        </record>
+
+        <record id="delivery" model="initial.review">
+            <field name="name">
+                Delivery
+            </field>
+        </record>
+
+        <record id="information" model="initial.review">
+            <field name="name">
+                Information
+            </field>
+        </record>
+
+        <record id="legal_other" model="initial.review">
+            <field name="name">
+                Legal &amp; other
+            </field>
+        </record>
+
+        <record id="field_works" model="initial.review">
+            <field name="name">
+                Field Works
+            </field>
+        </record>
+
+        <record id="qa_qc" model="initial.review">
+            <field name="name">
+                QA / QC
+            </field>
+        </record>
+
+        <record id="ra" model="initial.review">
+            <field name="name">
+                RA
+            </field>
+        </record>
+
+    </data>
+</odoo>

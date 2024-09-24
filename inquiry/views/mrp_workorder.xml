@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_mrp_production_workorder_form_view_inherit" model="ir.ui.view">
+            <field name="name">inquiry.mrp.production.workorder.form.view.inherit</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook" position="before">
+                    <group>
+                        <group>
+                            <field name="responsible" invisiblole="1"/>
+                            <field name="department_id"/>
+                            <field name="total_employee_cost"/>
+                            <field name="workcenter_cost"/>
+                            <field name="total_cost"/>
+                        </group>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

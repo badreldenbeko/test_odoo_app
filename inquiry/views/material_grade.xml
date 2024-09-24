@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+        <record id="material_grade_view_form" model="ir.ui.view">
+            <field name="name">material_grade_view_form</field>
+            <field name="model">material.grade</field>
+            <field name="arch" type="xml">
+                <form string="material_grade_form">
+                    <sheet>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="material_grade_view_tree" model="ir.ui.view">
+            <field name="name">material.grade.view.tree</field>
+            <field name="model">material.grade</field>
+            <field name="arch" type="xml">
+                <tree string="material_grade_tree" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="material_grade_action" model="ir.actions.act_window">
+            <field name="name">Material Grade</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">material.grade</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="initial_review_view_tree" model="ir.ui.view">
+            <field name="name">initial_review_view_tree</field>
+            <field name="model">initial.review</field>
+            <field name="arch" type="xml">
+                <tree string="initial_review_tree" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="initial_review_action" model="ir.actions.act_window">
+            <field name="name">Project Realization Plan Requirements</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">initial.review</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    </data>
+</odoo>

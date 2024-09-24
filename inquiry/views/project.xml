@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_edit_project_inherit" model="ir.ui.view">
+            <field name="name">inquiry.edit.project.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+
+                <field name="partner_id" position="before">
+                    <field name="inquiry_id" />
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

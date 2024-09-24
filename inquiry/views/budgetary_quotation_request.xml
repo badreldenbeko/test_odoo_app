@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="budgetary_quotation_request_view_form" model="ir.ui.view">
+            <field name="name">budgetary.quotation.request.view.form</field>
+            <field name="model">budgetary.quotation.request</field>
+            <field name="arch" type="xml">
+                <form string="budgetary_quotation_request_form">
+                    <header>
+                        <field name="tools_selected" invisible="1"/>
+                        <field name="material_selected" invisible="1"/>
+                        <field name="finish_selected" invisible="1"/>
+                        <field name="semi_finish_selected" invisible="1"/>
+                        <button class="btn btn-primary" string="Send All To BQR"
+                                invisible="not tools_selected and not material_selected and not finish_selected and not semi_finish_selected"
+                                type="object"
+                                name="send_all_selected_to_por"/>
+                        <button class="btn btn-primary" string="Confirm" type="object" name="confirm_bqr"
+                                invisible="state not in ['open']"/>
+                        <button class="btn btn-primary" string="Revision" type="object" name="create_revision_from_bqr"
+                                invisible="state not in ['open']"/>
+                        <button class="btn btn-primary" string="Done" type="object" name="done_bqr"
+                                invisible="state not in ['confirmed']"/>
+                        <button class="btn btn-primary" string="Open" type="object" name="change_to_open_bqr"
+                                invisible="state not in ['draft']"/>
+                        <button class="btn btn-primary" string="Back to draft" type="object" name="back_to_draft_bqr"
+                                invisible="state not in ['cancel']"/>
+                        <button class="btn btn-secondary" string="Cancel" type="object" name="cancel_bqr"
+                                invisible="state in ['cancel']"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,open,confirmed,done,cancel"/>
+                    </header>
+                    <sheet>
+                        <field name="rfq_count" invisible="1"/>
+                        <field name="por_count" invisible="1"/>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="BQR"
+                                    invisible="por_count == 0"
+                                    name="open_view_por_ids">
+                            </button>
+
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="RFQs"
+                                    invisible="rfq_count == 0"
+                                    name="open_view_inquiry_rfqs">
+                                <field string="RFQs" name="rfq_count" widget="statinfo"/>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="inquiry_id" readonly="1"/>
+                                <field name="job_category" invisible="1"/>
+                                <field name="trading_job_category" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="warehouse_id" invisible="1"/>
+                                <field name="date" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Additional Items">
+
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="t_margin_on"/>
+                                        </group>
+                                        <group>
+                                            <field name="t_margin_type"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="t_margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="change_all_tools_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <hr/>
+
+                                <h3>Tools</h3>
+                                <field name="all_tools_selected" invisible="1"/>
+                                <button name="select_all_tools_to_por" type="object" string="select all"
+                                        class="btn btn-sm btn-primary me-2" invisible="all_tools_selected"/>
+                                <button name="deselect_all_tools_to_por" type="object" string="deselect all"
+                                        class="btn btn-sm btn-primary" invisible="not tools_selected"/>
+                                <hr/>
+                                <field name="bqr_tools_supplies_ids">
+                                    <tree create="0" edit="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="sent_to_por" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               context="{'detailed_type': 'product', 'default_sale_ok': False, 'default_purchase_ok': True}"
+                                               domain="[('detailed_type', '=', 'product'), ('categ_id.is_tool_supply', '=', True)]"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" string="Cost" widget="monetary" />
+                                        <field name="total_standard_price" string="Total Cost" widget="monetary"
+                                               sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle" invisible="sent_to_por"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary" optional="1"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <field name="margin" optional="1"/>
+                                        <field name="price_after_margin" widget="monetary" sum="Price After Margin"/>
+                                        <field name="total_price_after_margin" widget="monetary" sum="Total After Margin"/>
+                                        <button class="btn btn-primary btn-sm" string="Send To BQR" type="object" name="send_tools_to_por" invisible="sent_to_por"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Consignments" invisible="job_category != 'service'">
+                                <h3>Additional Items</h3>
+                                <field name="bqr_service_consumable_ids">
+                                    <tree create="0" edit="0" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id" required="1"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" widget="monetary" sum="Cost" optional="1"/>
+                                        <field name="total_standard_price" widget="monetary" sum="Total Cost"
+                                               optional="1"/>
+                                        <field name="price_margin_status" widget="badge"
+                                               decoration-warning="price_margin_status != 'All Margin Apply'"
+                                               decoration-success="price_margin_status == 'All Margin Apply'"/>
+                                        <field name="price_after_margin" widget="monetary" sum="Price After Margin"/>
+                                        <field name="total_price_after_margin" widget="monetary" sum="Total After Margin"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Finished Products" invisible="trading_job_category != 'finished'">
+
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="fp_margin_on"/>
+                                        </group>
+                                        <group>
+                                            <field name="fp_margin_type"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="fp_margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="change_all_finish_product_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <hr/>
+
+                                <h3>Finished Products</h3>
+
+                                <field name="all_finish_selected" invisible="1"/>
+                                <button name="select_all_finish_to_rfq" type="object" string="select all"
+                                        class="btn btn-sm btn-primary me-2" invisible="all_finish_selected"/>
+                                <button name="deselect_all_finish_to_rfq" type="object" string="deselect all"
+                                        class="btn btn-sm btn-primary" invisible="not finish_selected"/>
+                                <hr/>
+
+                                <field name="bqr_finished_product_ids">
+                                    <tree editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="sent_to_por" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               domain="[('detailed_type', 'in', ['product'])]"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" widget="monetary" sum="Cost"/>
+                                        <field name="total_standard_price" widget="monetary" sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle" invisible="sent_to_por"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary" optional="1"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary" sum="Purchase Price"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <field name="margin" optional="1"/>
+                                        <field name="price_after_margin" widget="monetary" sum="Price After Margin"/>
+                                        <field name="total_price_after_margin" widget="monetary" sum="Total After Margin"/>
+                                        <button class="btn btn-primary" string="Send To BQR" type="object"
+                                                name="send_tools_to_por" invisible="sent_to_por"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Semi Finished Products" invisible="trading_job_category != 'semi_finished'">
+
+                                <group string="Price Margin">
+                                    <group>
+                                        <!--                                        <group>-->
+                                        <!--                                            <field name="sfp_margin_on"/>-->
+                                        <!--                                        </group>-->
+                                        <group>
+                                            <field name="sfp_margin_type"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="sfp_margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="change_all_semi_finish_product_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <hr/>
+
+                                <h3>Semi Finished Products</h3>
+
+                                <field name="all_semi_finish_selected" invisible="1"/>
+                                <button name="select_all_semi_finish_to_rfq" type="object" string="select all"
+                                        class="btn btn-sm btn-primary me-2" invisible="all_semi_finish_selected"/>
+                                <button name="deselect_all_semi_finish_to_rfq" type="object" string="deselect all"
+                                        class="btn btn-sm btn-primary" invisible="not semi_finish_selected"/>
+
+                                <field name="bqr_semi_finished_product_ids">
+                                    <tree editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="sent_to_por" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               domain="[('detailed_type', 'in', ['product'])]"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" widget="monetary" sum="Cost" optional="1"/>
+                                        <field name="total_standard_price" widget="monetary" sum="Total Cost"
+                                               optional="1"/>
+                                        <field name="price_margin_status" widget="badge"
+                                               decoration-warning="price_margin_status != 'All Margin Apply'"
+                                               decoration-success="price_margin_status == 'All Margin Apply'"/>
+                                        <field name="selected" widget="boolean_toggle" invisible="sent_to_por"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary" optional="1"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary" sum="Purchase Price"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <field name="total_semi_finish_cost"/>
+                                        <field name="margin" optional="1"/>
+                                        <field name="price_after_margin" widget="monetary" sum="Price After Margin"/>
+                                        <field name="total_price_after_margin" widget="monetary" sum="Total After Margin"/>
+
+                                        <button class="btn btn-primary" string="Send To BQR" type="object"
+                                                name="send_tools_to_por" invisible="sent_to_por"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Manufacturing Products" invisible="job_category != 'manufacturing'">
+
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="mm_margin_on"/>
+                                        </group>
+                                        <group>
+                                            <field name="mm_margin_type"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="mm_margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="change_all_manufacturing_product_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <hr/>
+
+                                <h3>Manufacturing Products</h3>
+                                <field name="bqr_manufacturing_product_ids">
+                                    <tree create="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               domain="[('detailed_type', 'in', ['product'])]" required="1"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" widget="monetary" sum="Cost" column_invisible="1"/>
+                                        <field name="total_manu_finish_cost" string="Standard Price" widget="monetary"
+                                               sum="Manu Cost"/>
+                                        <field name="total_standard_price" widget="monetary" sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary" optional="1"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary" sum="Purchase Price"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <field name="margin" optional="1"/>
+                                        <field name="price_after_margin" widget="monetary" sum="Price After Margin"/>
+                                        <field name="total_price_after_margin" widget="monetary" sum="Total After Margin"/>
+
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Bom Items" invisible="trading_job_category == 'finished'">
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="m_margin_on"/>
+                                        </group>
+                                        <group>
+                                            <field name="m_margin_type"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="m_margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="change_all_material_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <hr/>
+
+                                <h3>Bom Items</h3>
+                                <field name="all_material_selected" invisible="1"/>
+                                <button name="select_all_material_to_rfq" type="object" string="select all"
+                                        class="btn btn-sm btn-primary me-2" invisible="all_material_selected"/>
+                                <button name="deselect_all_material_to_rfq" type="object" string="deselect all"
+                                        class="btn btn-sm btn-primary" invisible="not material_selected"/>
+                                <hr/>
+                                <field name="bqr_material_ids">
+                                    <tree create="0" edit="0" delete="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="sent_to_por" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               domain="[('detailed_type', 'in', ['consu', 'product'])]"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" widget="monetary"/>
+                                        <field name="total_standard_price" widget="monetary" sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle" invisible="sent_to_por"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary" optional="1"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary" sum="Purchase Price"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <field name="margin" optional="1"/>
+                                        <field name="price_after_margin" widget="monetary"/>
+                                        <field name="total_price_after_margin" widget="monetary" sum="Total After Margin"/>
+                                        <button class="btn btn-primary" string="Send To BQR" type="object" name="send_mat_to_por" invisible="sent_to_por"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Operations" invisible="trading_job_category == 'finished'">
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="o_margin_type"/>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="o_margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="change_all_operation_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <hr/>
+
+                                <h3>Operations</h3>
+                                <field name="bqr_operation_ids">
+                                    <tree create="0" edit="0" delete="0" editable="bottom">
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="workcenter_id"/>
+                                        <field name="operation_time" sum="Time"/>
+                                        <field name="employee_ratio" sum="Employees"/>
+                                        <field name="workcenter_cost" widget="monetary" sum="total work center cost"/>
+                                        <field name="employee_cost" widget="monetary" sum="total employee cost"/>
+                                        <field name="total_cost" widget="monetary" sum="total cost"/>
+                                        <field name="margin"/>
+                                        <field name="after_margin" widget="monetary" sum="total after margin"/>
+                                        <field name="quantity"/>
+                                        <field name="quantity_price_after_margin" widget="monetary" sum="Total Quantity After Margin"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Overheads">
+                                <h3>Overheads</h3>
+                                <field name="overhead_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="bqr_overhead_id" widget="selection"/>
+                                        <field name="amount" widget="monetary"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Revisions">
+                                <field name="bqr_revision_ids">
+                                    <tree create="0" edit="0" delete="0">
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <button string="Apply" class="btn btn-primary btn-sm" type="object"
+                                                name="apply_revision"/>
+                                    </tree>
+
+                                    <form>
+                                        <group>
+                                            <field name="bqr_id" readonly="1"/>
+                                            <field name="name" readonly="1"/>
+                                            <field name="date" readonly="1"/>
+                                        </group>
+                                        <group>
+                                            <group string="Tools">
+                                                <field name="t_margin_on" readonly="1"/>
+                                                <field name="t_margin_on" readonly="1"/>
+                                                <field name="t_margin" readonly="1"/>
+                                            </group>
+                                            <group string="Material">
+                                                <field name="m_margin_on" readonly="1"/>
+                                                <field name="t_margin_type" readonly="1"/>
+                                                <field name="m_margin" readonly="1"/>
+                                            </group>
+                                            <group string="Operations">
+                                                <field name="o_margin_type" readonly="1"/>
+                                                <field name="o_margin" readonly="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+
+                        <!--                        <group>-->
+                        <!--                            <group/>-->
+                        <!--                            <div>-->
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group string="Totals">-->
+                        <!--                                            <field name="t_total_after_margin" widget="monetary" string="Tools"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group>-->
+                        <!--                                            <field name="m_total_after_margin" widget="monetary" string="Bom Items"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group>-->
+                        <!--                                            <field name="o_total_after_margin" widget="monetary"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group>-->
+                        <!--                                            <field name="emp_total_after_margin" widget="monetary"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group>-->
+                        <!--                                            <field name="total_overheads" widget="monetary"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group>-->
+                        <!--                                            <field name="sfp_total_after_margin" string="Semi Finished" widget="monetary" invisible="trading_job_category != 'semi_finished'"/>-->
+                        <!--                                            <field name="fp_total_after_margin" string="Finished" widget="monetary" invisible="trading_job_category != 'finished'"/>-->
+                        <!--                                            <field name="mm_total_after_margin" string="Manufacturing" widget="monetary" invisible="job_category != 'manufacturing'"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group>-->
+                        <!--                                    <group/>-->
+                        <!--                                    <hr/>-->
+                        <!--                                </group>-->
+
+                        <!--                                <group class="mt-0 pt-0">-->
+                        <!--                                    <group/>-->
+                        <!--                                    <h4>-->
+                        <!--                                        <group>-->
+                        <!--                                            <field name="all_total_after_margin" widget="monetary"/>-->
+                        <!--                                        </group>-->
+                        <!--                                    </h4>-->
+                        <!--                                </group>-->
+                        <!--                            </div>-->
+                        <!--                        </group>-->
+
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="budgetary_quotation_request_action" model="ir.actions.act_window">
+            <field name="name">Costing</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">budgetary.quotation.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

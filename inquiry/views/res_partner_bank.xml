@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_view_partner_bank_form_inherit_account_inherit" model="ir.ui.view">
+            <field name="name">inquiry.view.partner.bank.form.inherit.account.inherit</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="account.view_partner_bank_form_inherit_account"/>
+            <field name="arch" type="xml">
+
+                <field  name="bank_id" position="after">
+                    <field name="branch" />
+                    <field name="swift" />
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

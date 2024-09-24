@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--    Customer Code    -->
+        <record id="seq_customer" model="ir.sequence">
+            <field name="name">Customer Code</field>
+            <field name="code">seq.customer.code</field>
+            <field name="prefix">cust-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Customer Code    -->
+        <record id="seq_vendor" model="ir.sequence">
+            <field name="name">Vendor Code</field>
+            <field name="code">seq.vendor.code</field>
+            <field name="prefix">Vend-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Material Grade    -->
+        <record id="seq_material_grade" model="ir.sequence">
+            <field name="name">Material Grade Sequence</field>
+            <field name="code">seq.material.grade</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Other Size Details    -->
+        <record id="seq_other_size_details" model="ir.sequence">
+            <field name="name">Other Size Details</field>
+            <field name="code">seq.other.size.details</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Inquiry Product Group    -->
+        <record id="seq_inquiry_product_group" model="ir.sequence">
+            <field name="name">Inquiry Product Group Sequence</field>
+            <field name="code">seq.inquiry.product.group</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Inquiry Product Family    -->
+        <record id="seq_inquiry_product_family" model="ir.sequence">
+            <field name="name">Inquiry Product Family Sequence</field>
+            <field name="code">seq.inquiry.product.family</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Profile Type    -->
+        <record id="seq_profile_type" model="ir.sequence">
+            <field name="name">Profile Type Sequence</field>
+            <field name="code">seq.profile.type</field>
+            <field name="prefix">PT-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Service Consumable    -->
+        <record id="seq_service_consumable" model="ir.sequence">
+            <field name="name">Service Consumable Sequence</field>
+            <field name="code">seq.service.consumable</field>
+            <field name="prefix">SC-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Inquiry    -->
+        <!--    Trading Finished Inquiry    -->
+        <record id="seq_trading_finished_inquiry" model="ir.sequence">
+            <field name="name">Trading Finished Inquiry</field>
+            <field name="code">seq.trading.finished.inquiry</field>
+            <field name="prefix">INQ-TF-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Trading Semi Finished Inquiry    -->
+        <record id="seq_trading_semi_finished_inquiry" model="ir.sequence">
+            <field name="name">Trading Semi Finished Inquiry</field>
+            <field name="code">seq.trading.semi.finished.inquiry</field>
+            <field name="prefix">INQ-TSF-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Service Inquiry    -->
+        <record id="seq_service_inquiry" model="ir.sequence">
+            <field name="name">Service Inquiry</field>
+            <field name="code">seq.service.inquiry</field>
+            <field name="prefix">INQ-S-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Manufacturing Inquiry    -->
+        <record id="seq_manufacturing_inquiry" model="ir.sequence">
+            <field name="name">Manufacturing Inquiry</field>
+            <field name="code">seq.manufacturing.inquiry</field>
+            <field name="prefix">INQ-M-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Other Inquiry    -->
+        <record id="seq_other_inquiry" model="ir.sequence">
+            <field name="name">Other Inquiry</field>
+            <field name="code">seq.other.inquiry</field>
+            <field name="prefix">Other-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    Project    -->
+        <record id="seq_project" model="ir.sequence">
+            <field name="name">Inquiry Project</field>
+            <field name="code">seq.project</field>
+            <field name="prefix">PM-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    BQR    -->
+        <record id="seq_budgetary_quotation_request" model="ir.sequence">
+            <field name="name">Costing</field>
+            <field name="code">seq.budgetary.quotation.request</field>
+            <field name="prefix">CP-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    CP    -->
+        <record id="seq_purchase_order_request" model="ir.sequence">
+            <field name="name">Purchase Order Request</field>
+            <field name="code">seq.purchase.order.request</field>
+            <field name="prefix">BQR-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!--    BQR Revision    -->
+        <record id="seq_bqr_revision" model="ir.sequence">
+            <field name="name">BQR Revision</field>
+            <field name="code">seq.bqr.revision</field>
+            <field name="prefix">REV-</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_create_wizard" model="ir.ui.view">
+            <field name="name">inquiry.create.wizard</field>
+            <field name="model">inquiry.create.wizard</field>
+            <field name="arch" type="xml">
+                <form string="New Inquiry">
+                    <group>
+                        <group string="Customer Info.">
+                            <field name="partner_id" placeholder="Select Customer"
+                                   domain="[('customer_rank', '&gt;', 0)]"
+                                   context="{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1}"/>
+                        </group>
+                        <group string="Inquiry Settings">
+
+                            <field name="job_category" placeholder="Select Inquiry Category"/>
+                            <field name="trading_job_category" invisible="job_category not in ['trading']"
+                                   required="job_category == 'trading'"/>
+                            <field name="new_product" widget="boolean_toggle"
+                                   invisible="job_category not in ['manufacturing']"/>
+                            <field name="new_product_design" invisible="not new_product" required="new_product"/>
+                            <field name="has_prp" widget="boolean_toggle"  string="PRP"/>
+
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_new_inquiry" string="Create" type="object" class="btn-primary"
+                                data-hotkey="c"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="inquiry_create_wizard_action" model="ir.actions.act_window">
+            <field name="name">Create New Inquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">inquiry.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="inquiry_create_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

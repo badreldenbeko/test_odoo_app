@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="inspection_and_test_plan_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">INSPECTION AND TEST PLAN</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT-FO/QC-03 Rev. 00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Customer:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.partner_id"/>
+                                                </td>
+                                                <td>
+                                                    <strong>DOT Project No.:</strong>
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Scope Of Work:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.description_of_work"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>DOT Quote Ref.:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.partner_rfq_ref_no"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Item No.</td>
+                                                <td>Description</td>
+                                                <td>Material Grade</td>
+                                                <td>Quantity</td>
+                                                <td>Remarks</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.service_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.product_tmpl_id.material_grade_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                    <td/>
+                                                </tr>
+                                            </t>
+                                            <t t-foreach="doc.trading_finished_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.product_tmpl_id.material_grade_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                    <td/>
+                                                </tr>
+                                            </t>
+                                            <t t-foreach="doc.trading_semi_finished_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.product_tmpl_id.material_grade_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                    <td/>
+                                                </tr>
+                                            </t>
+                                            <t t-foreach="doc.manufacturing_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.product_tmpl_id.material_grade_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                    <td/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-5 mt-5">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>00</td>
+                                                <td>
+                                                    <span t-field="doc.date"/>
+                                                </td>
+                                                <td>
+                                                    Initial Issue for Approval
+                                                </td>
+                                                <td>
+                                                    <br/>
+                                                    <br/>
+                                                </td>
+                                                <td>
+                                                    <br/>
+                                                    <br/>
+                                                </td>
+                                                <td>
+                                                    <br/>
+                                                    <br/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rev No.</td>
+                                                <td>Date</td>
+                                                <td>Status description</td>
+                                                <td>Prepared by</td>
+                                                <td>Approved by</td>
+                                                <td>Accepted By (Customer)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>ITP REF # WFT-497-01</td>
+                                                <td>Rev No:01</td>
+                                                <td>Date:
+                                                    <span t-field="doc.date"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div style="page-break-before: always;"/>
+
+                            <div class="row">
+                                <div class="col-12 text-end">DOT-FO/QC-03 Rev. 00</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 p-2 border">
+                                    <h6 class="text-center">
+                                        <strong>INSPECTION AND TEST PLAN ACTIVITY CODES</strong>
+                                    </h6>
+                                    <p>
+                                        <strong>H – Hold:</strong>
+                                        The activity shall not proceed further without the presence Inspector and/or
+                                        Customer written clearance (100% - Inspect/Witness/Review).
+                                    </p>
+                                    <p>
+                                        <strong>W – Witness:</strong>
+                                        A point at which the Customer or certifying authority reserve the option to
+                                        attend or witness the activity. The activity shall not proceed until either.
+                                    </p>
+                                    <ul>
+                                        <li>The responsibility party is in attendance</li>
+                                        <li>The required notification period has expired</li>
+                                        <li>The responsible party has declined to attend</li>
+                                    </ul>
+                                    <p><strong>RW – Random Witness:</strong> Sampling Inspection.</p>
+                                    <p><strong>RR – Random Review:</strong> Sampling Document Review.</p>
+                                    <p><strong>R – Review:</strong> A point at which the Customer or certifying authority will review documents.</p>
+                                    <p><strong>A – Approval:</strong> Approval of documents, procedures, or test results.</p>
+                                    <p><strong>M – Monitor:</strong> Unscheduled implementation of operation/production/inspection.</p>
+                                    <p><strong>I – Inspect:</strong> as per required procedure without Customer presence.</p>
+                                </div>
+                                <div class="col-6 p-2 border">
+                                    <h6 class="text-center">
+                                        <strong>LEGENDS USED IN IT</strong>
+                                    </h6>
+                                    <strong>TPI:</strong> Third Party Inspection<br/>
+                                    <strong>MRB</strong> Manufacturing Record Book<br/>
+                                    <strong>NDE:</strong> Non-Destructive Examination<br/>
+                                    <strong>MPI:</strong>Magnetic Particle Inspection<br/>
+                                    <strong>LPI:</strong>Liquid Penetrant Inspection<br/>
+                                    <strong>WI:</strong>Work Instructions<br/>
+                                    <strong>NCR:</strong>Non-Conformance Report<br/>
+                                    <strong>RIR:</strong>Receipt Inspection Report<br/>
+                                    <strong>MOM:</strong>Minutes of Meeting<br/>
+                                    <strong>PO:</strong>Purchase Order<br/>
+                                    <strong>MTC:</strong>Material Test Certificate<br/>
+                                    <strong>DCR:</strong>Dimensional Check Record<br/>
+                                    <strong>QCIC:</strong>Quality Control Inspection Certificate<br/>
+                                    <strong>IR:</strong>Inspection Report<br/>
+                                    <strong>O/L:</strong>Overall<br/>
+                                    <strong>DFT:</strong>Dry Film Thickness<br/>
+                                    <strong>QA:</strong>Quality Assurance<br/>
+                                    <strong>DOM:</strong>Date of Manufacture<br/>
+                                    <strong>N/A:</strong>Not Applicable<br/>
+                                </div>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-6 p-2 border">
+                                    <h6 class="text-center">
+                                        <strong>WORK INSTRUCTIONS/PROCEDURES</strong>
+                                    </h6>
+                                    <P>Work Instruction for Pipe Perforation- DOT–WI/PP04/Rev.00</P>
+                                    <P>Work Instruction for Machining - DOT–WI/PP01/Rev.00</P>
+                                    <P>Work Instruction for Handling &amp; Storage - DOT–WI/PP24/Rev.00</P>
+                                    <P>Work Instruction for Handling of NC Products DOT-WI/PP06 Rev.00</P>
+                                </div>
+                                <div class="col-6 p-2 border">
+                                    <h6 class="text-center">
+                                        <strong>SPECIFICATIONS</strong>
+                                    </h6>
+                                    <p>WEATHERFORD DRAWING NO.: 02789610 REV A.7</p>
+                                    <p>WEATHERFORD DRAWING NO.: 02618113 REV.A.3</p>
+                                    <p>DOT DRAWING NO.: 1002.1824.01 Rev.01</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>ITP REF # WFT-497-01</td>
+                                                <td>Rev No:01</td>
+                                                <td>Date:
+                                                    <span t-field="doc.date"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div style="page-break-before: always;"/>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                           <tr>
+                                                <td width="5%"><strong>Activity No</strong></td>
+                                                <td width="20%"><strong>Activity Description</strong></td>
+                                                <td width="20%"><strong>Characteristics to be verified</strong></td>
+                                                <td width="20%"><strong>Reference Document &amp; Acceptance Standard/Criteria</strong></td>
+                                                <td width="20%"><strong>Verifying Document / Record</strong></td>
+                                                <td width="15%"><strong>DOT QA/QC</strong></td>
+                                                <td width="15%"><strong>WFT</strong></td>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.service_line_ids" t-as="line">
+                                                <t t-foreach="line.product_id.product_tmpl_id.product_activity_ids" t-as="activity">
+                                                    <tr>
+                                                        <td><span t-field="activity.serial"/> </td>
+                                                        <td><span t-field="activity.activity_description"/> </td>
+                                                        <td><span t-field="activity.characteristics"/> </td>
+                                                        <td><span t-field="activity.reference_document"/> </td>
+                                                        <td><span t-field="activity.verifying_document"/> </td>
+                                                        <td><span t-field="activity.qa_qc"/> </td>
+                                                        <td><span t-field="activity.wft"/> </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <t t-foreach="doc.trading_finished_line_ids" t-as="line">
+                                                <t t-foreach="line.product_id.product_tmpl_id.product_activity_ids" t-as="activity">
+                                                    <tr>
+                                                        <td><span t-field="activity.serial"/> </td>
+                                                        <td><span t-field="activity.activity_description"/> </td>
+                                                        <td><span t-field="activity.characteristics"/> </td>
+                                                        <td><span t-field="activity.reference_document"/> </td>
+                                                        <td><span t-field="activity.verifying_document"/> </td>
+                                                        <td><span t-field="activity.qa_qc"/> </td>
+                                                        <td><span t-field="activity.wft"/> </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <t t-foreach="doc.trading_semi_finished_line_ids" t-as="line">
+                                                <t t-foreach="line.product_id.product_tmpl_id.product_activity_ids" t-as="activity">
+                                                    <tr>
+                                                        <td><span t-field="activity.serial"/> </td>
+                                                        <td><span t-field="activity.activity_description"/> </td>
+                                                        <td><span t-field="activity.characteristics"/> </td>
+                                                        <td><span t-field="activity.reference_document"/> </td>
+                                                        <td><span t-field="activity.verifying_document"/> </td>
+                                                        <td><span t-field="activity.qa_qc"/> </td>
+                                                        <td><span t-field="activity.wft"/> </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <t t-foreach="doc.manufacturing_line_ids" t-as="line">
+                                                <t t-foreach="line.product_id.product_tmpl_id.product_activity_ids" t-as="activity">
+                                                    <tr>
+                                                        <td><span t-field="activity.serial"/> </td>
+                                                        <td><span t-field="activity.activity_description"/> </td>
+                                                        <td><span t-field="activity.characteristics"/> </td>
+                                                        <td><span t-field="activity.reference_document"/> </td>
+                                                        <td><span t-field="activity.verifying_document"/> </td>
+                                                        <td><span t-field="activity.qa_qc"/> </td>
+                                                        <td><span t-field="activity.wft"/> </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>ITP REF # WFT-497-01</td>
+                                                <td>Rev No:01</td>
+                                                <td>Date:
+                                                    <span t-field="doc.date"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="inspection_and_test_plan" model="ir.actions.report">
+            <field name="name">INSPECTION AND TEST PLAN</field>
+            <field name="model">inquiry.inquiry</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.inspection_and_test_plan_view</field>
+            <field name="report_file">inquiry.inspection_and_test_plan_view</field>
+            <field name="binding_model_id" ref="model_inquiry_inquiry"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('INSPECTION AND TEST PLAN-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

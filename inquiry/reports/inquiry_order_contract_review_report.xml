@@ -1,0 +1,1470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="report_inquiry_order_contract_review_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+
+
+                            <!--            Header                -->
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">ORDER/CONTRACT REVIEW &amp; PLANNING</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT-FO/SA-02 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <!--            Header                -->
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td width="25%">Inquiry No.</td>
+                                                <td width="25%">
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <span>Date</span>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.partner_rfq_ref_date"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+
+                                                <td width="25%">
+                                                    <span>RFQ/REF No.</span>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.partner_rfq_ref_no"/>
+                                                </td>
+                                                <td width="25%">Quotation No.</td>
+                                                <td width="25%">
+                                                    <span t-field="doc.post_review_sale_order_id"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td width="25%">
+                                                    <span>Client</span>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.partner_id"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <span>Mobile</span>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.partner_id.mobile"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td width="25%">
+                                                    <span>Address</span>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.partner_id.contact_address"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <span>E-Mail</span>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.partner_id.email"/>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--            SCOPE OF PRODUCT                -->
+                            <div class="row">
+                                <table class="table table-sm table-bordered my-0">
+                                    <tbody class="border-1">
+                                        <tr>
+                                            <td width="25%">
+                                                <p class="font-weight-bolder">
+                                                    <b>
+                                                        <u>SCOPE OF PRODUCT</u>
+                                                    </b>
+                                                </p>
+                                            </td>
+                                            <td width="25%">
+                                                <i t-if="doc.is_manufacturing" class="fa fa-check-square-o"/>
+                                                <i t-if="not doc.is_manufacturing" class="fa fa-square-o"/>
+                                                Manufacturing
+                                            </td>
+                                            <td width="25%">
+                                                <i t-if="doc.is_field_service" class="fa fa-check-square-o"/>
+                                                <i t-if="not doc.is_field_service" class="fa fa-square-o"/>
+                                                Field Service
+                                            </td>
+                                            <td width="25%">
+                                                <i t-if="doc.is_repair_or_service" class="fa fa-check-square-o"/>
+                                                <i t-if="not doc.is_repair_or_service" class="fa fa-square-o"/>
+                                                Repair or Service
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--            SCOPE OF PRODUCT 2                -->
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <t t-foreach="doc.scope_of_product_ids" t-as="line">
+                                                    <td class="align-middle">
+                                                        <span t-field="line.scope_of_product_id"/>
+                                                        <i t-if="line.is_checked" class="fa fa-check-square-o"/>
+                                                        <i t-if="not line.is_checked" class="fa fa-square-o"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <td>
+                                                    <strong>SN.</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Description</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>UOM</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>QTY</strong>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="border-1">
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.service_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_uom_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                            <t t-foreach="doc.trading_finished_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_uom_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                            <t t-foreach="doc.trading_semi_finished_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_uom_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+
+                                            <t t-foreach="doc.manufacturing_line_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_uom_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_qty"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--            SCOPE OF PRODUCT 3                -->
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="100%">
+                                                    <p class="font-weight-bolder">
+                                                        <b>
+                                                            <u>Description Of Work</u>
+                                                        </b>
+                                                    </p>
+                                                    <p>
+                                                        <span t-field="doc.description_of_work"/>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--            Initial Review                -->
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="100%">
+                                                    <p>
+                                                        <b>
+                                                            <u class="font-weight-bolder">Initial Review:</u>
+                                                        </b>
+                                                        <span>(‘√’ Y for reviewed and found OK; ‘√’ N for requirement
+                                                            cannot be met; ‘√’
+                                                            N/A for not applicable )
+                                                        </span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--            Initial Review 2                -->
+                            <div class="row my-0">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <t t-foreach="doc.initial_review_ids" t-as="line">
+                                                    <td>
+                                                        <span t-field="line.initial_review_id"/>
+                                                        <i t-if="line.status == 'y'" class="fa fa-check-square-o"/>
+                                                        <i t-if="line.status != 'y'" class="fa fa-square-o"/>
+                                                        Y
+                                                        <br/>
+                                                        <i t-if="line.status == 'n'" class="fa fa-check-square-o"/>
+                                                        <i t-if="line.status != 'n'" class="fa fa-square-o"/>
+                                                        N
+                                                        <br/>
+                                                        <i t-if="line.status == 'na'" class="fa fa-check-square-o"/>
+                                                        <i t-if="line.status != 'na'" class="fa fa-square-o"/>
+                                                        N/A
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!--            Order Acceptance                -->
+                            <div class="row my-0">
+                                <table class="table table-sm table-bordered my-0">
+                                    <tbody class="border-1">
+                                        <tr>
+                                            <td width="50%">
+
+                                                <p class="font-weight-bolder">
+                                                    <b>
+                                                        <u>Order Acceptance:</u>
+                                                    </b>
+                                                </p>
+                                                <i t-if="doc.order_acceptance == 'yes'"
+                                                   class="fa fa-check-square-o"/>
+                                                <i t-if="doc.order_acceptance == 'no'" class="fa fa-square-o"/>
+                                                Y
+                                                <i t-if="doc.order_acceptance == 'no'"
+                                                   class="fa fa-check-square-o"/>
+                                                <i t-if="doc.order_acceptance == 'yes'" class="fa fa-square-o"/>
+                                                N
+
+                                            </td>
+                                            <td width="50%">
+
+                                                <p>
+                                                    <span>Specify Details (if any):</span>
+                                                    <br/>
+                                                    <span t-field="doc.order_acceptance_detail"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                            <!--            New Page                -->
+                            <!--                            <p style="page-break-before:always;"/>-->
+
+                            <!--            Customer Requirements                -->
+                            <div class="row my-0">
+                                <table class="table table-sm table-bordered my-0">
+                                    <tbody class="border-1">
+                                        <tr>
+                                            <td width="50%">
+
+                                                <p>
+                                                    <span>Requirement not stated by customer, deemed necessary for
+                                                        the provision
+                                                        of product
+                                                    </span>
+                                                </p>
+                                            </td>
+                                            <td width="50%">
+
+                                                <p>
+                                                    <span>Specify Details (if any):</span>
+                                                    <br/>
+                                                    <span t-field="doc.customer_requirements_detail"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--            Amendment Review                -->
+                            <div class="row my-0">
+                                <table class="table table-sm table-bordered">
+                                    <tbody class="border-1">
+                                        <tr>
+                                            <td width="50%">
+                                                <p class="font-weight-bolder">
+                                                    <b>
+                                                        <u>Amendment Review:</u>
+                                                    </b>
+                                                    (If Any)
+                                                </p>
+                                            </td>
+                                            <td width="50%">
+                                                <p>
+                                                    <strong>Specify Details:</strong>
+                                                    <br/>
+                                                    <span t-field="doc.amendment_review"/>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--            New Page          -->
+                            <p style="page-break-before:always;"/>
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">ORDER/CONTRACT REVIEW &amp; PLANNING</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT - FO/SA-02 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <!--            Commercial                -->
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td colspan="3" width="65%">
+                                                    <p class="font-weight-bolder">
+                                                        <b>
+                                                            <u>Commercial</u>
+                                                        </b>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p class="font-weight-bolder">
+                                                        <b>Comments</b>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <t t-foreach="doc.commercial_line_ids" t-as="line">
+                                        <table class="table table-sm table-bordered my-0">
+                                            <tbody class="border-1">
+                                                <tr>
+                                                    <td class="align-middle" width="20%">
+                                                        <span t-field="line.commercial_id"/>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <span>Satisfied</span>
+                                                        <i t-if="line.satisfied" class="fa fa-check-square-o"/>
+                                                        <i t-if="not line.satisfied" class="fa fa-square-o"/>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <span>Not Satisfied</span>
+                                                        <i t-if="line.not_satisfied" class="fa fa-check-square-o"/>
+                                                        <i t-if="not line.not_satisfied" class="fa fa-square-o"/>
+                                                    </td>
+                                                    <td class="align-middle" width="35%">
+                                                        <span t-field="line.comments"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </t>
+
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="20%" class="align-middle">
+                                                    <span>Documentation Requirements</span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>Tax</span>
+                                                    <i t-if="doc.commercial_tax" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_tax" class="fa fa-square-o"/>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>Insurance</span>
+                                                    <i t-if="doc.commercial_insurance"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_insurance" class="fa fa-square-o"/>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>Others</span>
+                                                    <i t-if="doc.commercial_others" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_others" class="fa fa-square-o"/>
+                                                </td>
+                                                <td width="35%" class="align-middle">
+                                                    <span t-field="doc.commercial_dr_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="20%" class="align-middle">
+                                                    <span>Documents needed for Shipment</span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>Invoice</span>
+                                                    <i t-if="doc.commercial_invoice" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_invoice" class="fa fa-square-o"/>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>D. Note</span>
+                                                    <i t-if="doc.commercial_d_note"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_d_note" class="fa fa-square-o"/>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>Packing List</span>
+                                                    <i t-if="doc.commercial_packing_list" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_packing_list" class="fa fa-square-o"/>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <span>LPO</span>
+                                                    <i t-if="doc.commercial_lpo" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.commercial_lpo" class="fa fa-square-o"/>
+                                                </td>
+                                                <td width="35%" class="align-middle">
+                                                    <span t-field="doc.commercial_dns_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-0">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <p>
+                                                        <u>Additional Comments:</u>
+                                                    </p>
+                                                    <p>
+                                                        <span t-field="doc.commercial_comments"/>
+                                                    </p>
+
+                                                    <div class="row mt-1">
+                                                        <div class="col-4">
+                                                            <p>
+                                                                <strong>Prepared By:</strong>
+                                                                <span t-field="doc.bdm_id"/>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p>
+                                                                <strong>Sign:</strong>
+                                                                <span t-if="doc.bdm_id.sign" t-field="doc.bdm_id.sign"
+                                                                      t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p>
+                                                                <strong>Date:</strong>
+                                                                <span t-field="doc.bdm_date"/>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+
+                            <!--            New Page          -->
+                            <p style="page-break-before:always;"/>
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">ORDER/CONTRACT REVIEW &amp; PLANNING</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT - FO/SA-02 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+
+                            <!--            DESIGN & DEVELOPMENT                -->
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="65%" colspan="3">
+                                                    <p class="font-weight-bolder">
+                                                        <b>
+                                                            <u>Design &amp; Development</u>
+                                                        </b>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <b>Comments</b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <t t-foreach="doc.design_development_ids" t-as="line">
+                                        <table class="table table-sm table-bordered my-0">
+                                            <tbody class="border-1">
+                                                <tr>
+                                                    <td width="25%" style="height: 25px; vertical-align: top;">
+                                                        <span t-field="line.design_development_id"/>
+                                                    </td>
+                                                    <td style="height: 25px; vertical-align: top;">
+                                                        <i t-if="line.status == 'yes'" class="fa fa-check-square-o"/>
+                                                        <i t-if="line.status == 'no'" class="fa fa-square-o"/>
+                                                        <i t-if="line.status == 'not'" class="fa fa-square-o"/>
+                                                        <span t-field="line.selection_label"/>
+                                                    </td>
+                                                    <td width="35%" style="height: 25px; vertical-align: top;">
+                                                        <span t-field="line.comments"/>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </t>
+
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <p>
+                                                        Attach Phase Wise Design Review Reports
+                                                    </p>
+                                                </td>
+                                                <td width="35%">
+                                                    <p>
+                                                        <span t-field="doc.attached_design_comments"/>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <p>
+                                                        <u>Additional Comments:</u>
+                                                    </p>
+                                                    <p>
+                                                        <span t-field="doc.design_development_comments"/>
+                                                    </p>
+
+                                                    <div class="row mt-1">
+                                                        <div class="col-4">
+                                                            <p>
+                                                                <strong>Prepared By:</strong>
+                                                                <span t-field="doc.tm_id"/>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p>
+                                                                <strong>Sign:</strong>
+                                                                <span t-if="doc.tm_id.sign" t-field="doc.tm_id.sign"
+                                                                      t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p>
+                                                                <strong>Date:</strong>
+                                                                <span t-field="doc.tm_date"/>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <!--            New Page          -->
+                            <p style="page-break-before:always;"/>
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">ORDER/CONTRACT REVIEW &amp; PLANNING</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT - FO/SA-02 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <!--            Planning                -->
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="65%">
+                                                    <p class="font-weight-bolder">
+                                                        <b>
+                                                            <u>Planning</u>
+                                                        </b>
+                                                    </p>
+                                                </td>
+                                                <td width="65%">
+                                                    <b>Comments</b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <span>
+                                                        Contingencies based on RA
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.contingencies_based_on_ra"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.contingencies_based_on_ra" class="fa fa-square-o"/>
+                                                    <span>Not Applicable</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="not doc.contingencies_based_on_ra"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.contingencies_based_on_ra" class="fa fa-square-o"/>
+                                                    <span>Action required</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.contingencies_based_on_ra_comments"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td rowspan="2" width="25%">
+                                                    <span>Availability of Resources</span>
+                                                </td>
+                                                <td>
+                                                    <span>Manpower</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.manpower"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.manpower" class="fa fa-square-o"/>
+                                                    <span>Available</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="not doc.manpower"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.manpower" class="fa fa-square-o"/>
+                                                    <span>To be arrange</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.manpower_comments"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Machine</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.machine"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.machine" class="fa fa-square-o"/>
+                                                    <span>Available</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="not doc.machine"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.machine" class="fa fa-square-o"/>
+                                                    <span>Not Available</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.machine_comments"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr colspan="2">
+                                                <td>
+                                                    <center>
+                                                        <strong class="text-center">Raw Material</strong>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <span>Material Availability</span>
+                                                </td>
+                                                <td width="20%">
+                                                    <i t-if="doc.material_availability_free_issue"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.material_availability_free_issue"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Free Issue</span>
+                                                </td>
+                                                <td width="20%">
+                                                    <i t-if="doc.material_availability_supply"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.material_availability_supply"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Supply</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.material_availability_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <span>
+                                                        If Supply, Type of Material &amp; Material Grade &amp; Service
+                                                        Conditions
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.raw_material_forged"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.raw_material_forged"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Forged</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.raw_material_casted"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.raw_material_casted"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Casted</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.raw_material_rod_pip"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.raw_material_rod_pip"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Rod / Pipe</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.raw_material_others"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.raw_material_others"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Other</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.raw_material_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <span>If Supply, Availability</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.supply_availability == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.supply_availability == 'no'"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Available</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.supply_availability == 'no'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.supply_availability == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Not Available</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.supply_availability_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <sapn>If Supply to be imported</sapn>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.supply_imported == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.supply_imported == 'no'"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Yes</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.supply_imported == 'no'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.supply_imported == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    <span>No</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.supply_imported_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <span>Job Required by:</span>
+                                                </td>
+                                                <td width="11.5%">
+                                                    <span t-field="doc.job_required_by"/>
+                                                </td>
+                                                <td>
+                                                    <span>Expected / Planned Completion on</span>
+                                                </td>
+                                                <td width="13%">
+                                                    <span t-field="doc.planned_completion_on"/>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.job_planned_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <span>Additional Drawing Needed:</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.additional_drawing_needed"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.additional_drawing_needed"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Yes</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="not doc.additional_drawing_needed"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.additional_drawing_needed"
+                                                       class="fa fa-square-o"/>
+                                                    <span>No</span>
+                                                </td>
+                                                <td width="35%">
+                                                    <span t-field="doc.additional_drawing_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="15%">
+                                                    <span>Drawings:</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_selection_type == 'full'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_selection_type == 'full'"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Full Set</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_selection_type == 'partial'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_selection_type == 'partial'"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Partial</span>
+                                                </td>
+                                                <td width="10%">
+                                                    <span>Type:</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_type_ga"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_type_ga"
+                                                       class="fa fa-square-o"/>
+                                                    <span>GA</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_type_pid"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_type_pid"
+                                                       class="fa fa-square-o"/>
+                                                    <span>PID</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_type_iso"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_type_iso"
+                                                       class="fa fa-square-o"/>
+                                                    <span>ISO</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_type_shop"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_type_shop"
+                                                       class="fa fa-square-o"/>
+                                                    <span>SHOP</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_type_sketch"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_type_sketch"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Sketch</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.drawing_type_sketch_ws"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.drawing_type_sketch_ws"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Sketch(WS)</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="table table-sm table-bordered my-0">
+                                    <tbody class="border-1">
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    <u>Additional Comments:</u>
+                                                </p>
+
+                                                <p>
+                                                    <span t-field="doc.planning_additional_comment"/>
+                                                </p>
+
+                                                <div class="row mt-1">
+                                                    <div class="col-4">
+                                                        <p>
+                                                            <strong>Prepared By:</strong>
+                                                            <span t-field="doc.om_id"/>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p>
+                                                            <strong>Sign:</strong>
+                                                            <span t-if="doc.om_id.sign" t-field="doc.om_id.sign"
+                                                                  t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p>
+                                                            <strong>Date:</strong>
+                                                            <span t-field="doc.om_date"/>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <!--            New Page          -->
+                            <p style="page-break-before:always;"/>
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">ORDER/CONTRACT REVIEW &amp; PLANNING</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT - FO/SA-02 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <!--            QC            -->
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="65%">
+                                                    <p class="font-weight-bolder">
+                                                        <b>
+                                                            <u>QA/QC</u>
+                                                        </b>
+                                                    </p>
+                                                </td>
+                                                <td width="65%">
+                                                    <b>Comments</b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <t t-foreach="doc.qa_qc_ids" t-as="line">
+                                        <table class="table table-sm table-bordered my-0">
+                                            <tbody class="border-1">
+                                                <tr style=" margin-top:0px; margin-bottom:0px;">
+                                                    <td width="35%"
+                                                        style="padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:0px;">
+                                                        <span t-field="line.qa_qc_id"/>
+                                                    </td>
+                                                    <td style="padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:0px;">
+                                                        <i t-if="line.status"
+                                                           class="fa fa-check-square-o"/>
+                                                        <i t-if="not line.status"
+                                                           class="fa fa-square-o"/>
+                                                        <span>Yes</span>
+                                                    </td>
+                                                    <td style="padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:0px;">
+                                                        <i t-if="not line.status"
+                                                           class="fa fa-check-square-o"/>
+                                                        <i t-if="line.status"
+                                                           class="fa fa-square-o"/>
+                                                        <span>No</span>
+                                                    </td>
+                                                    <td width="35%"
+                                                        style="padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:0px;">
+                                                        <span t-field="line.comments"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </t>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="table table-sm table-bordered">
+                                    <tbody class="border-1">
+                                        <tr>
+                                            <td>
+                                                <div class="col">
+                                                    <p>
+                                                        <u>Additional Comments:</u>
+                                                    </p>
+                                                    <p>
+                                                        <span t-field="doc.qa_qc_comments"/>
+                                                    </p>
+                                                </div>
+
+                                                <div class="row mt-1">
+                                                    <div class="col-4">
+                                                        <p>
+                                                            <strong>Prepared By:</strong>
+                                                            <span t-field="doc.qcm_id"/>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p>
+                                                            <strong>Sign:</strong>
+                                                            <span t-if="doc.qcm_id.sign" t-field="doc.qcm_id.sign"
+                                                                  t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p>
+                                                            <strong>Date:</strong>
+                                                            <span t-field="doc.qcm_date"/>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+                            <!--            New Page          -->
+                            <p style="page-break-before:always;"/>
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">ORDER/CONTRACT REVIEW &amp; PLANNING</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT - FO/SA-02 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <!--            Others            -->
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="100%">
+                                                    <b>
+                                                        <u>Others</u>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Risk Identification Note Required?</td>
+                                                <td>
+                                                    <i t-if="doc.risk_identification"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.risk_identification"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Yes</span>
+                                                </td>
+                                                <td>
+                                                    <i t-if="not doc.risk_identification"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="doc.risk_identification"
+                                                       class="fa fa-square-o"/>
+                                                    <span>No</span>
+                                                </td>
+                                                <td width="35%">
+                                                    If Yes, to be attached with this format.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="row">
+                                        <table class="table table-sm table-bordered my-0">
+                                            <tbody >
+                                                <tr>
+                                                    <td>
+                                                        <div class="col">
+                                                            <p>
+                                                                <u>Additional Comments:</u>
+                                                            </p>
+                                                            <p>
+                                                                <span t-field="doc.risk_identification_comment"/>
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="row mt-1">
+                                                            <div class="col-4">
+                                                                <p>
+                                                                    <strong>Prepared By:</strong>
+                                                                    <span t-field="doc.bdm_id"/>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <p>
+                                                                    <strong>Sign:</strong>
+                                                                    <span t-if="doc.bdm_id.sign"
+                                                                          t-field="doc.bdm_id.sign"
+                                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <p>
+                                                                    <strong>Date:</strong>
+                                                                    <span t-field="doc.bdm_date"/>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <b>Post Order Review (After Receipt of PO) Comments if any</b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <b>Name</b>
+                                                </td>
+                                                <td>
+                                                    <b>Sign</b>
+                                                </td>
+                                                <td>
+                                                    <b>Comments</b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.sale_manager_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-if="doc.post_review_sale_order_id.sale_manager_id.sign"
+                                                          t-field="doc.post_review_sale_order_id.sale_manager_id.sign"
+                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.sale_post_review_comment"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.technical_manager_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-if="doc.post_review_sale_order_id.technical_manager_id.sign"
+                                                          t-field="doc.post_review_sale_order_id.technical_manager_id.sign"
+                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.technical_post_review_comment"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.operation_manager_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-if="doc.post_review_sale_order_id.operation_manager_id.sign"
+                                                          t-field="doc.post_review_sale_order_id.operation_manager_id.sign"
+                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.operation_post_review_comment"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.qa_qc_manager_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-if="doc.post_review_sale_order_id.qa_qc_manager_id.sign"
+                                                          t-field="doc.post_review_sale_order_id.qa_qc_manager_id.sign"
+                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.qa_qc_post_review_comment"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.pr_manager_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-if="doc.post_review_sale_order_id.pr_manager_id.sign"
+                                                          t-field="doc.post_review_sale_order_id.pr_manager_id.sign"
+                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.post_review_sale_order_id.pr_post_review_comment"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <h6>Notes</h6>
+
+                                    <ol>
+                                        <li>Each product to be reviewed with separate work sheet.</li>
+                                        <li>Risk Identification Note shall be used as an input for Risk Assessment at
+                                            the time of Product Realization Plan.
+                                        </li>
+                                        <li>Monograms are not applicable for products which are under the scope of
+                                            Service.
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_inquiry_order_contract_review" model="ir.actions.report">
+            <field name="name">Order / Contract Review</field>
+            <field name="model">inquiry.inquiry</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_inquiry_order_contract_review_view</field>
+            <field name="report_file">inquiry.report_inquiry_order_contract_review_view</field>
+            <field name="binding_model_id" ref="model_inquiry_inquiry"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('ORDER/CONTRACT REVIEW-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_account_analytic_plan" model="account.analytic.plan">
+            <field name="name">Inquiry</field>
+        </record>
+    </data>
+</odoo>

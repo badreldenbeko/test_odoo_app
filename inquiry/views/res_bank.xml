@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_res_bank_action" model="ir.actions.act_window">
+            <field name="name">Banks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.bank</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

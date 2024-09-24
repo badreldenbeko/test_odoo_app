@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inquiry Root Menu -->
+        <menuitem id="inquiry_root" name="Inquiry" sequence="6" web_icon="inquiry,static/description/icon.png"/>
+
+        <!-- Inquiry Menu Group -->
+        <menuitem id="inquiry_category" name="Inquiry" parent="inquiry_root" sequence="10"/>
+
+        <!-- Inquiry Menu Item -->
+        <menuitem id="inquiry_item" name="Inquiry" parent="inquiry_category"
+                  action="inquiry_action" sequence="0"/>
+
+        <!-- Budgetary Quotation Request Menu Item -->
+        <menuitem id="budgetary_quotation_request_item" name="Costing" parent="inquiry_category"
+                  action="budgetary_quotation_request_action" sequence="2"/>
+
+        <!-- Inquiry Purchase Order Request Menu Item -->
+        <menuitem id="inquiry_purchase_order_request_item" name="Budgetary Quotation Request" parent="inquiry_category"
+                  action="inquiry_purchase_order_request_action" sequence="3"/>
+
+        <!-- Follow Request Group -->
+        <menuitem id="inquiry_follow_request_category" name="Requests" parent="inquiry_root" sequence="20"/>
+
+        <!-- Send Follow Request -->
+        <menuitem id="inquiry_follow_send_request_menu_item" name="Inquiry Requests"
+                  parent="inquiry_follow_request_category"
+                  action="inquiry_followers_action" sequence="0"/>
+
+        <!-- Contacts Menu Group -->
+        <menuitem id="inquiry_contacts_category" name="Contacts" parent="inquiry_root" sequence="70"/>
+
+        <!-- Customers Menu Group -->
+        <menuitem id="inquiry_customers_category" name="Customers" parent="inquiry_contacts_category" sequence="70"/>
+
+        <!-- Contact Menu Item -->
+        <menuitem id="inquiry_customers_item" name="Contacts" parent="inquiry_customers_category"
+                  action="inquiry_contacts_action" sequence="1"/>
+
+        <!-- Company Menu Item -->
+        <menuitem id="inquiry_companies_item" name="Companies" parent="inquiry_customers_category"
+                  action="inquiry_companies_action" sequence="1"/>
+
+        <!-- Vendors Menu Group -->
+        <menuitem id="inquiry_vendors_category" name="Vendors" parent="inquiry_contacts_category" sequence="80"/>
+
+        <!-- Vendor Registration Menu Item -->
+        <menuitem id="inquiry_vendors_registration_item" name="Vendor Registration" parent="inquiry_vendors_category"
+                  action="vendor_registration_action" sequence="1"/>
+
+        <!-- Vendors Menu Item -->
+        <menuitem id="inquiry_vendors_item" name="Vendors" parent="inquiry_vendors_category"
+                  action="account.res_partner_action_supplier" sequence="2"/>
+
+        <!-- Products Menu Group -->
+        <menuitem id="inquiry_products_category" name="Products" parent="inquiry_root" sequence="90"/>
+
+        <!-- Products Menu Item -->
+        <menuitem id="inquiry_products_item" name="Products" parent="inquiry_products_category"
+                  action="inquiry_product_action" sequence="1"/>
+
+        <!-- Products Menu Item -->
+        <menuitem id="inquiry_service_item" name="Services" parent="inquiry_products_category"
+                  action="inquiry_service_product_action" sequence="2"/>
+
+        <!-- Material Products Menu Item -->
+        <menuitem id="inquiry_material_products_item" name="Materials" parent="inquiry_products_category"
+                  action="inquiry_materials_product_action" sequence="3"/>
+
+        <!-- Tools & Supplies Products Menu Item -->
+        <menuitem id="inquiry_tools_and_supplies_products_item" name="Tools &amp; Supplies"
+                  parent="inquiry_products_category"
+                  action="inquiry_tool_and_supplies_product_action" sequence="4"/>
+
+        <!-- Consignment Products Menu Item -->
+        <menuitem id="inquiry_consignment_products_item" name="Consignment Products" parent="inquiry_products_category"
+                  action="inquiry_consignment_product_action" sequence="5"/>
+
+        <!-- Service Consumables Item -->
+        <!--        <menuitem id="inquiry_service_consumable_item" name="Service Consumables" parent="inquiry_products_category"-->
+        <!--                  action="service_consumable_action" sequence="6"/>-->
+
+        <!-- Configuration Menu Group -->
+        <menuitem id="inquiry_configuration_category" name="Configuration" parent="inquiry_root" sequence="100"/>
+
+        <!-- Terms Menu Group -->
+        <menuitem id="configuration_terms_category" name="Terms" parent="inquiry_configuration_category" sequence="1"/>
+
+        <!-- Payment Terms Menu Item -->
+        <menuitem id="inquiry_payment_terms_item" name="Payment Terms" parent="configuration_terms_category"
+                  action="account.action_payment_term_form" sequence="1"/>
+
+        <!-- Incoterms Menu Item -->
+        <menuitem id="inquiry_incoterms_item" name="Incoterms" parent="configuration_terms_category"
+                  action="account.action_incoterms_tree" sequence="2"/>
+
+        <!-- Product Group -->
+        <menuitem id="configuration_product_category" name="Product" parent="inquiry_configuration_category"
+                  sequence="2"/>
+
+        <!-- Product Group -->
+<!--        <menuitem id="inquiry_product_group_item" name="Groups" parent="configuration_product_category"-->
+<!--                  action="inquiry_product_group_action" sequence="1"/>-->
+
+        <!-- Product Family -->
+        <menuitem id="inquiry_product_family_item" name="Family" parent="configuration_product_category"
+                  action="inquiry_product_family_action" sequence="2"/>
+
+        <!-- Other Size Details -->
+        <menuitem id="other_size_details_item" name="Other Size Details" parent="configuration_product_category"
+                  action="other_size_details_action" sequence="2"/>
+
+        <!-- Product Category Item -->
+        <menuitem id="inquiry_product_category_item" name="Product Categories" parent="configuration_product_category"
+                  action="product.product_category_action_form" sequence="3"/>
+
+        <!-- Material Grade Item -->
+        <menuitem id="inquiry_material_grade_item" name="Material Grade" parent="configuration_product_category"
+                  action="material_grade_action" sequence="4"/>
+
+        <!-- Profile Type Item -->
+        <menuitem id="inquiry_profile_type_item" name="Profile Type" parent="configuration_product_category"
+                  action="profile_type_action" sequence="5"/>
+
+        <!-- Bank Group -->
+        <menuitem id="inquiry_bank_category" name="Bank" parent="inquiry_configuration_category" sequence="3"/>
+
+        <!-- Bank Accounts Item -->
+        <menuitem id="inquiry_bank_item" name="Bank" parent="inquiry_bank_category"
+                  action="inquiry_res_bank_action" sequence="1"/>
+
+        <!-- Bank Accounts Item -->
+        <menuitem id="inquiry_bank_accounts_item" name="Bank Accounts" parent="inquiry_bank_category"
+                  action="account.action_account_supplier_accounts" sequence="2"/>
+
+        <!-- Inquiry Group -->
+        <menuitem id="configuration_inquiry_category" name="Inquiry" parent="inquiry_configuration_category"
+                  sequence="3"/>
+
+        <!-- Project Realization Plan Requirements Item -->
+        <menuitem id="project_realization_plan_requirements_item" name="PRP Requirements"
+                  parent="configuration_inquiry_category"
+                  action="project_realization_plan_requirements_action" sequence="1"/>
+
+        <!-- Scope Of Product Item -->
+        <menuitem id="scope_of_product_item" name="Scope Of Product" parent="configuration_inquiry_category"
+                  action="scope_of_product_action" sequence="2"/>
+
+        <!-- Initial Review Item -->
+        <menuitem id="initial_review_item" name="Initial Review" parent="configuration_inquiry_category"
+                  action="initial_review_action" sequence="3"/>
+
+        <!-- Commercial Item -->
+        <menuitem id="inquiry_commercial_line_item" name="Commercial" parent="configuration_inquiry_category"
+                  action="inquiry_commercial_action" sequence="4"/>
+
+        <!-- Design & Development Item -->
+        <menuitem id="inquiry_design_development_item" name="Design &amp; Development"
+                  parent="configuration_inquiry_category"
+                  action="inquiry_design_development_action" sequence="4"/>
+
+        <!-- QA/QC Item -->
+        <menuitem id="inquiry_qa_qc_item" name="QA/QC" parent="configuration_inquiry_category"
+                  action="inquiry_qa_qc_action" sequence="5"/>
+
+
+        <!-- Coasting Group -->
+        <menuitem id="configuration_costing_category" name="Coasting" parent="inquiry_configuration_category"
+                  sequence="4"/>
+
+        <!-- Overhead Item -->
+        <menuitem id="bqr_overhead_category_item" name="Overhead Category" parent="configuration_costing_category"
+                  action="bqr_overhead_category_action" sequence="1"/>
+
+    </data>
+</odoo>

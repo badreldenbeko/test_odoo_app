@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_purchase_order_request_view_form" model="ir.ui.view">
+            <field name="name">inquiry.purchase.order.request.view.form</field>
+            <field name="model">purchase.order.request</field>
+            <field name="arch" type="xml">
+                <form string="inquiry_purchase_order_request_form">
+
+                    <field name="job_category" invisible="1"/>
+                    <field name="trading_job_category" invisible="1"/>
+
+                    <header>
+                        <button class="btn btn-primary" string="RFQ" type="action"
+                                name="%(inquiry.bqr_create_multi_rfq_wizard_action)d"
+                                context="{'por_id': active_id}"/>
+                    </header>
+
+                    <sheet>
+
+                        <field name="rfq_count" invisible="1"/>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="RFQs"
+                                    invisible="rfq_count == 0"
+                                    name="open_view_por_rfqs">
+                                <field string="RFQs" name="rfq_count" widget="statinfo"/>
+                            </button>
+                        </div>
+
+                        <group>
+                            <field name="name"/>
+                            <field name="bqr_id" string="Costing" readonly="1"/>
+                        </group>
+                        <group/>
+
+                        <notebook>
+                            <page string="Tools">
+                                <h3>Tools</h3>
+                                <field name="all_tools_selected" invisible="1"/>
+                                <field name="tools_selected" invisible="1"/>
+                                <button name="select_all_tools_line" type="object" class="btn btn-primary btn-sm"
+                                        string="Select All" invisible="tools_selected"/>
+                                <button name="deselect_all_tools_line" type="object"
+                                        class="btn btn-primary btn-sm"
+                                        string="Deselect All" invisible="not tools_selected"/>
+                                <field name="por_tools_supplies_ids">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="por_id" column_invisible="1"/>
+                                        <field name="rfq_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               context="{'detailed_type': 'product', 'default_sale_ok': False, 'default_purchase_ok': True}"
+                                               domain="[('detailed_type', '=', 'product'), ('categ_id.is_tool_supply', '=', True)]"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" string="Cost" widget="monetary" sum="Cost"/>
+                                        <field name="total_standard_price" string="Total Cost" widget="monetary"
+                                               sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <button class="btn btn-primary" string="RFQ" type="action"
+                                                name="%(inquiry.bqr_create_rfq_wizard_action)d"
+                                                context="{'line_id': active_id, 'line_type': 'tools', 'por_id': por_id}"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Finish Products" invisible="trading_job_category != 'finished'">
+                                <h3>Finish Products</h3>
+                                <field name="all_finish_selected" invisible="1"/>
+                                <field name="finish_selected" invisible="1"/>
+                                <button name="select_all_finish_line" type="object" class="btn btn-primary btn-sm"
+                                        string="Select All" invisible="finish_selected"/>
+                                <button name="deselect_all_finish_line" type="object" class="btn btn-primary btn-sm"
+                                        string="Deselect All" invisible="not finish_selected"/>
+                                <field name="por_finish_ids">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="por_id" column_invisible="1"/>
+                                        <field name="rfq_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" string="Cost" widget="monetary" sum="Cost"/>
+                                        <field name="total_standard_price" string="Total Cost" widget="monetary"
+                                               sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <button class="btn btn-primary" string="RFQ" type="action"
+                                                name="%(inquiry.bqr_create_rfq_wizard_action)d"
+                                                context="{'line_id': active_id, 'line_type': 'finished', 'por_id': por_id}"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Semi Finish Products" invisible="trading_job_category != 'semi_finished'">
+                                <h3>Semi Finish Products</h3>
+                                <field name="all_semi_finish_selected" invisible="1"/>
+                                <field name="semi_finish_selected" invisible="1"/>
+                                <button name="select_all_semi_finish_line" type="object" class="btn btn-primary btn-sm"
+                                        string="Select All" invisible="semi_finish_selected"/>
+                                <button name="deselect_all_semi_finish_line" type="object"
+                                        class="btn btn-primary btn-sm"
+                                        string="Deselect All" invisible="not semi_finish_selected"/>
+                                <field name="por_semi_finish_ids">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="por_id" column_invisible="1"/>
+                                        <field name="rfq_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" string="Cost" widget="monetary" sum="Cost"/>
+                                        <field name="total_standard_price" string="Total Cost" widget="monetary"
+                                               sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <button class="btn btn-primary" string="RFQ" type="action"
+                                                name="%(inquiry.bqr_create_rfq_wizard_action)d"
+                                                context="{'line_id': active_id, 'line_type': 'semi_finished', 'por_id': por_id}"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Materials" invisible="trading_job_category == 'finished'">
+                                <h3>Materials</h3>
+                                <field name="all_material_selected" invisible="1"/>
+                                <field name="material_selected" invisible="1"/>
+                                <button name="select_all_material_line" type="object" class="btn btn-primary btn-sm"
+                                        string="Select All" invisible="material_selected"/>
+                                <button name="deselect_all_material_line" type="object" class="btn btn-primary btn-sm"
+                                        string="Deselect All" invisible="not material_selected"/>
+
+                                <field name="por_material_ids">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="bqr_id" column_invisible="1"/>
+                                        <field name="por_id" column_invisible="1"/>
+                                        <field name="rfq_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"
+                                               domain="[('detailed_type', 'in', ['consu', 'product'])]"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                        <field name="standard_price" widget="monetary" sum="Cost"/>
+                                        <field name="total_standard_price" widget="monetary" sum="Total Cost"/>
+                                        <field name="selected" widget="boolean_toggle"/>
+                                        <field name="rfq_min_price" widget="monetary"/>
+                                        <field name="min_rfq_id"/>
+                                        <field name="rfq_avg_price" widget="monetary"/>
+                                        <field name="rfq_max_price" widget="monetary"/>
+                                        <field name="max_rfq_id"/>
+                                        <field name="rfq_purchase_price" widget="monetary" sum="Purchase Price"/>
+                                        <field name="purchase_rfq_id"/>
+                                        <button class="btn btn-primary" string="RFQ" type="action"
+                                                name="%(inquiry.bqr_create_rfq_wizard_action)d"
+                                                context="{'line_id': active_id, 'line_type': 'material', 'por_id': por_id}"/>
+
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="move_ids" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="inquiry_purchase_order_request_action" model="ir.actions.act_window">
+            <field name="name">Budgetary Quotation Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

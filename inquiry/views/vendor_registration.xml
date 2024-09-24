@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="vendor_registration_view_form" model="ir.ui.view">
+            <field name="name">vendor.registration.view.form</field>
+            <field name="model">vendor.registration</field>
+            <field name="arch" type="xml">
+                <form string="vendor_registration_form">
+
+                    <header>
+                        <button class="btn btn-primary btn-sm" string="Create Vendor" type="object"
+                                name="create_vendor">
+                        </button>
+                    </header>
+
+                    <sheet>
+                        <group string="General Information">
+                            <group>
+                                <field name="reg_no"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="supply_chain_manager_id"/>
+                                <field name="general_manager_id"/>
+                            </group>
+                        </group>
+
+                        <group string="Contact Information">
+                            <group>
+                                <field name="contact_person"/>
+                            </group>
+                            <group>
+                                <field name="email"/>
+                                <field name="address"/>
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                                <field name="fax"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="LEGAL ENTITY ">
+                                <field name="is_corporation"/>
+                                <field name="is_partnership"/>
+                                <field name="is_sole_proprietorship"/>
+                                <field name="is_joint_venture"/>
+                                <field name="is_franchise"/>
+                                <field name="is_non_profit"/>
+                            </group>
+                            <group string="TYPES OF BUSINESS">
+                                <field name="is_retailer"/>
+                                <field name="is_construction_contractor"/>
+                                <field name="is_distributor_dealer_agent"/>
+                                <field name="is_publication_broadcasting"/>
+                                <field name="is_professional_services"/>
+                                <field name="is_proprietary_products"/>
+                                <field name="is_service_provider"/>
+                                <field name="is_manufacture"/>
+                                <field name="is_consultant"/>
+                                <field name="is_freight_transportation"/>
+                                <field name="is_wholesaler"/>
+                                <field name="is_other"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <field name="details_on_service" string="DETAILS ON SERVICES"/>
+                            <field name="details_of_any_approvals" string="DETAILS OF ANY APPROVALS"/>
+                            <field name="year_of_start" string="YEAR OF STARTING BUSINESS"/>
+                            <field name="commercial_licence" string="COMMERCIAL LICENCE"/>
+                            <field name="business_hours" string="BUSINESS HOURS"/>
+                            <field name="facilities_to_carry" string="FACILITIES TO CARRY OUT JOBS"/>
+                            <field name="branches_out_ksa" string="BRANCHES – LOCAL/OUTSIDE KSA"/>
+                            <field name="certificates_validity" string="Certificates &amp; validity"/>
+                            <field name="client_approvals" string="CLIENT APPROVALS"/>
+                            <field name="beneficiary_name" string="BENEFICIARY NAME"/>
+                            <field name="tax_id" string="VAT ID, TAX ID"/>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="on_site_audit" string="On site Audit /Verification"/>
+                                <field name="first_inspection" string="First article Inspection"/>
+                            </group>
+                            <group>
+                                <field name="based_on_proprietary" string="Is approval based on proprietary items"/>
+                                <field name="legal_requirements"
+                                       string="Does the supplier confirm to Legal requirements "/>
+                                <field name="contractual_requirements"
+                                       string="Does the supplier confirm to Contractual requirements"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="vendor_registration_action" model="ir.actions.act_window">
+            <field name="name">Vendor Registration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vendor.registration</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

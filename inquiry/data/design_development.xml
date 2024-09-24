@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="feasibility_of_design" model="design.development">
+            <field name="name">
+                Feasibility of design
+            </field>
+            <field name="selection_label">
+                Feasible
+            </field>
+        </record>
+
+        <record id="preparation_of_BOM" model="design.development">
+            <field name="name">
+                Preparation of BOM
+            </field>
+            <field name="selection_label">
+                Prepared
+            </field>
+        </record>
+
+        <record id="design_information" model="design.development">
+            <field name="name">
+                Design Information
+            </field>
+            <field name="selection_label">
+                Available
+            </field>
+        </record>
+
+        <record id="drawing" model="design.development">
+            <field name="name">
+                Drawing
+            </field>
+            <field name="selection_label">
+                Available
+            </field>
+        </record>
+
+        <record id="details_given_by_customer" model="design.development">
+            <field name="name">
+                Details given by customer
+            </field>
+            <field name="selection_label">
+                Sufficient
+            </field>
+        </record>
+
+    </data>
+</odoo>

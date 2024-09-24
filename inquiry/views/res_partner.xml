@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">inquiry.view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="before">
+                    <group>
+                        <field name="supplier_rank" invisible="1" />
+                        <field name="customer_rank" invisible="1" />
+                        <field name="code" readonly="1" invisible="supplier_rank == 0 and customer_rank == 0"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//field[@name='title']" position="before">
+                    <field name="registration_id" readonly="1"/>
+                    <field name="p_box_no"/>
+                    <field name="fax" widget="phone"/>
+                </xpath>
+
+                <xpath expr="//notebook" position="before">
+                    <field name="supplier_rank" invisible="1" />
+                    <group invisible="supplier_rank == 0 or country_code == 'SA'">
+                        <field name="landed_cost" widget="percentage"/>
+                    </group>
+                </xpath>
+
+                <xpath expr="//page[@name='internal_notes']" position="attributes">
+                    <attribute name="string">
+                        Remarks
+                    </attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='internal_notes']/field[@name='comment']" position="replace">
+                    <field name="comment" placeholder="Remarks if any..."/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_view_partner_property_form_inherit" model="ir.ui.view">
+            <field name="name">inquiry.view.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='bank_ids']/tree/field[@name='bank_id']" position="after">
+                    <field name="branch"/>
+                    <field name="swift"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="inquiry_contacts_action" model="ir.actions.act_window">
+            <field name="name">Contacts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="domain">[('is_company', '=', False)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer',
+                'default_is_company': False, 'default_customer_rank': 1}
+            </field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <record id="inquiry_companies_action" model="ir.actions.act_window">
+            <field name="name">Companies</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="domain">[('is_company', '=', True)]</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer',
+                'default_is_company': True, 'default_customer_rank': 1}
+            </field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+    </data>
+</odoo>

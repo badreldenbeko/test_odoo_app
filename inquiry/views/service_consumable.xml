@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="service_consumable_view_tree" model="ir.ui.view">
+            <field name="name">service.consumable.view.tree</field>
+            <field name="model">service.consumable</field>
+            <field name="arch" type="xml">
+                <tree string="service_consumable_tree">
+                    <field name="sequence" widget="handle"/>
+                    <field name="product_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="service_consumable_view_form" model="ir.ui.view">
+            <field name="name">service.consumable.view.form</field>
+            <field name="model">service.consumable</field>
+            <field name="arch" type="xml">
+                <form string="service_consumable_form">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Consumables">
+                                <field name="consumable_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id" domain="[('sale_ok', '=', False), ('purchase_ok', '=', False)]"/>
+                                        <field name="product_qty"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="service_consumable_action" model="ir.actions.act_window">
+            <field name="name">Service Consumables</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">service.consumable</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

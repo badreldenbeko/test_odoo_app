@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="tees_crosses" model="scope.of.product">
+            <field name="name">
+                Tees &amp; Crosses
+            </field>
+        </record>
+
+        <record id="adapter_spacer_spool" model="scope.of.product">
+            <field name="name">
+                Adapter &amp; Spacer Spool
+            </field>
+        </record>
+
+        <record id="screens" model="scope.of.product">
+            <field name="name">
+                Screens
+            </field>
+        </record>
+
+        <record id="strainers" model="scope.of.product">
+            <field name="name">
+                Strainers
+            </field>
+        </record>
+
+        <record id="basket" model="scope.of.product">
+            <field name="name">
+                Basket
+            </field>
+        </record>
+
+        <record id="drill_stem_subs" model="scope.of.product">
+            <field name="name">
+                Drill Stem Subs
+            </field>
+        </record>
+
+        <record id="pipe_threading" model="scope.of.product">
+            <field name="name">
+                Pipe Threading
+            </field>
+        </record>
+
+        <record id="drilling_spool" model="scope.of.product">
+            <field name="name">
+                Drilling Spool
+            </field>
+        </record>
+
+        <record id="other_end_connector" model="scope.of.product">
+            <field name="name">
+                Other End Connector
+            </field>
+        </record>
+
+        <record id="others" model="scope.of.product">
+            <field name="name">
+                Others
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_delivery_note_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+
+                        <div class="page">
+
+                            <div class="row">
+                                <div class="col-6 pt-0 mt-0">
+                                    <h2 class="pt-0 mt-0">Delivery Note</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT-FO/ST-12 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row" style="border-bottom: 1px solid #AF6402;"/>
+
+                            <div class="row">
+                                <div class="col-6 py-2">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <strong>Ship To:</strong>
+                                                </td>
+                                                <td colspan="2">
+                                                    <span t-field="doc.sale_id.partner_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>DOT Project No.:</strong>
+                                                </td>
+                                                <td colspan="2">
+                                                    <span t-field="doc.sale_id.inquiry_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Well No.:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr/>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6 py-2">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <strong>DN No:</strong>
+                                                </td>
+                                                <t t-set="dn_name" t-value="'DN-' + doc.name"/>
+                                                <td>
+                                                    <span t-esc="dn_name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>PO No:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.origin"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Shipped Date:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.scheduled_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Truck No:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.truck_no"/>
+                                                </td>
+                                            </tr>
+                                            <tr/>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td>
+                                                    <strong>Item No.</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Description</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Quantity</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Sales/Service</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Serial No.</strong>
+                                                </td>
+
+                                            </tr>
+
+                                            <t t-foreach="doc.move_ids_without_package" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="line.product_id.barcode"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.quantity"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.service_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-foreach="line.lot_ids" t-as="lot">
+                                                             # <span t-field="lot.name"/> -
+                                                        </t>
+                                                    </td>
+
+                                                </tr>
+                                            </t>
+                                            <tr/>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <strong>Driver Name:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.driver_name"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <strong>Sign (Mob.#)</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.driver_mobile"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong>Driver ID:</strong>
+                                                </td>
+                                                <td colspan="2">
+                                                    <span t-field="doc.driver_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <strong>Comments:</strong>
+                                                </td>
+                                                <td colspan="2">
+                                                    <span t-field="doc.driver_comments"/>
+                                                </td>
+                                            </tr>
+                                            <tr/>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 py-2">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="50%">
+                                                    <strong>Shipped By, Name:</strong>
+                                                </td>
+                                                <td width="50%">
+                                                    <span t-field="doc.shipping_by_name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>ID #:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.shipping_by_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Sign:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Date:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.scheduled_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Time:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr/>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6 py-2">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="50%">
+                                                    <strong>Customer Rep. Name:</strong>
+                                                </td>
+                                                <td width="50%">
+                                                    <span t-field="doc.driver_name"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>ID #:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.driver_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Sign:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Date:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.scheduled_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Time:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                            <tr/>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+<!--                            <div class="row" style="margin-top: 100px;">-->
+<!--                                <div class="col-9">-->
+<!--                                    <p>-->
+<!--                                        CR 2050118686 | Contributed Capital SR 200,00,000 س.ت 2050118686 | رأس المال-->
+<!--                                        <br/>-->
+<!--                                        المدفوع ,200,00,000 ريال سعودي-->
+<!--                                        <br/>-->
+<!--                                        Modon Industrial City III,-->
+<!--                                        <br/>-->
+<!--                                        P.O.Box 1468, Al-Khobar 31952-->
+<!--                                        <br/>-->
+<!--                                        Phone: +966 13 804 1290 | Fax +966 13 804 1291-->
+<!--                                        <br/>-->
+<!--                                        www.dynamicoiltools.com-->
+<!--                                        <br/>-->
+<!--                                    </p>-->
+<!--                                </div>-->
+<!--                                <div class="col-3 text-end pt-5">-->
+<!--                                    <img src='/inquiry/static/images/DOT-Logo.bmp' style="height: 50px;"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_delivery_note" model="ir.actions.report">
+            <field name="name">Delivery Note</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_delivery_note_view</field>
+            <field name="report_file">inquiry.report_delivery_note_view</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('Delivery Note-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_vendor_registration_form_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h5 class="text-center mb-2">VENDOR REGISTRATION FORM</h5>
+
+                            <p class="text-center">(SERVICE PROVIDER/MATERIAL SUPPLIER)</p>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td width="5%">SN.</td>
+                                                <td width="30%">Field</td>
+                                                <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>NAME OF COMPANY / SHOP</td>
+                                                <td>
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td>LEGAL ENTITY</td>
+                                                <td>
+                                                    <i t-if="doc.is_corporation" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_corporation" class="fa fa-square-o"/>
+                                                    <span>Corporation</span>
+                                                    <i t-if="doc.is_joint_venture" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_joint_venture" class="fa fa-square-o"/>
+                                                    <span>Joint Venture</span>
+                                                    <i t-if="doc.is_partnership" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_partnership" class="fa fa-square-o"/>
+                                                    <span>Partnership</span>
+                                                    <br/>
+
+                                                    <i t-if="doc.is_franchise" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_franchise" class="fa fa-square-o"/>
+                                                    <span>Franchise</span>
+                                                    <i t-if="doc.is_sole_proprietorship" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_sole_proprietorship" class="fa fa-square-o"/>
+                                                    <span>Sole Proprietorship</span>
+                                                    <i t-if="doc.is_non_profit" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_non_profit" class="fa fa-square-o"/>
+                                                    <span>Non-Profit</span>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3</td>
+                                                <td>FULL ADDRESS</td>
+                                                <td>
+                                                    <span t-field="doc.address"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4</td>
+                                                <td>NAME &amp; TITLE OF CONTACT PERSON</td>
+                                                <td>
+                                                    <span t-field="doc.contact_person"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5</td>
+                                                <td>Phone</td>
+                                                <td>
+                                                    <span t-field="doc.phone"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>6</td>
+                                                <td>Mobile</td>
+                                                <td>
+                                                    <span t-field="doc.mobile"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>7</td>
+                                                <td>E MAIL ID</td>
+                                                <td>
+                                                    <span t-field="doc.email"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>8</td>
+                                                <td>TYPES OF BUSINESS/COMMODITY SERVICE (CHECK ONE)
+                                                    (If you are Distributor/Dealer/Agent, please give details of the
+                                                    same)
+                                                    Note: You may attach a separate sheet giving fullest details.
+                                                </td>
+                                                <td>
+                                                    <i t-if="doc.is_retailer" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_retailer" class="fa fa-square-o"/>
+                                                    <span>Retailer</span>
+                                                    <i t-if="doc.is_construction_contractor"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_construction_contractor"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Construction Contractor</span>
+                                                    <i t-if="doc.is_distributor_dealer_agent"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_distributor_dealer_agent"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Distributor / Dealer / Agent</span>
+                                                    <i t-if="doc.is_publication_broadcasting"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_publication_broadcasting"
+                                                       class="fa fa-square-o"/>
+                                                    <span>Publication / Broadcasting</span>
+                                                    <br/>
+                                                    <i t-if="doc.is_professional_services"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_professional_services" class="fa fa-square-o"/>
+                                                    <span>Professional Services</span>
+                                                    <i t-if="doc.is_proprietary_products" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_proprietary_products" class="fa fa-square-o"/>
+                                                    <span>Proprietary Products</span>
+                                                    <i t-if="doc.is_service_provider" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_service_provider" class="fa fa-square-o"/>
+                                                    <span>Service Provider</span>
+                                                    <i t-if="doc.is_manufacture" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_manufacture" class="fa fa-square-o"/>
+                                                    <span>Manufacturer</span>
+                                                    <br/>
+                                                    <i t-if="doc.is_consultant" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_consultant" class="fa fa-square-o"/>
+                                                    <span>Consultant</span>
+                                                    <i t-if="doc.is_freight_transportation"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_freight_transportation" class="fa fa-square-o"/>
+                                                    <span>Freight/Transportation</span>
+                                                    <i t-if="doc.is_wholesaler" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_wholesaler" class="fa fa-square-o"/>
+                                                    <span>Wholesaler</span>
+                                                    <i t-if="doc.is_other" class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.is_other" class="fa fa-square-o"/>
+                                                    <span>Other</span>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>9</td>
+                                                <td>DETAILS ON SERVICES OR GOODS YOUR COMPANY SUPPLIES
+                                                    Note: You may attach a separate sheet giving fullest details.
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.details_on_service"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>10</td>
+                                                <td>DETAILS OF ANY APPROVALS (FOR GOODS OR SERVICES RENDERED BY YOU)
+                                                    RECEIVED FROM CTC/OIL COMPANIES IN KSA/ME/OIL MAJORS/KSA FIRE
+                                                    DEPT/MINISTRIES ETC.
+                                                    Note: You may attach a separate sheet giving fullest details.
+
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.details_of_any_approvals"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>11</td>
+                                                <td>YEAR OF STARTING BUSINESS
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.year_of_start"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>12</td>
+                                                <td>COMMERCIAL LICENCE
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.commercial_licence"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>13</td>
+                                                <td>BUSINESS HOURS
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.business_hours"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>14</td>
+                                                <td>BRANCHES – LOCAL/OUTSIDE KSA
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.branches_out_ksa"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>15</td>
+                                                <td>Certificates &amp; validity
+                                                    <br/>
+                                                    SYSTEMS CERTIFICATIONS
+                                                    <br/>
+                                                    PRODUCT APPROVAL/CERTIFICATIONS
+                                                    <br/>
+                                                    PATENT APPROVALS IF ANY
+
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.certificates_validity"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>15</td>
+                                                <td>CLIENT APPROVALS
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.client_approvals"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>16</td>
+                                                <td>BENEFICIARY NAME
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.beneficiary_name"/>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>16</td>
+                                                <td>VAT ID, TAX ID
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.tax_id"/>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <p style="page-break-after: always;"/>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>I, the undersigned, hereby warrant that the information provided in this
+                                                form is correct and, in the event of changes, details will be provided
+                                                immediately.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p>Name : ____________________________</p>
+                                            <p>Signature : ____________________________</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Title : ____________________________</p>
+                                            <p>Date : ____________________________</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td class="text-center">
+                                                    DOT Procurement Department Use Only
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    On site Audit /Verification
+                                                    <i t-if="doc.on_site_audit == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.on_site_audit == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    YES
+                                                    <i t-if="doc.on_site_audit == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.on_site_audit == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    NO
+                                                    <br/>
+                                                    First article Inspection
+                                                    <i t-if="doc.first_inspection == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.first_inspection == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    YES
+                                                    <i t-if="doc.first_inspection == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.first_inspection == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    NO
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    Is approval based on proprietary items
+                                                    <i t-if="doc.based_on_proprietary == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.based_on_proprietary == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    YES
+                                                    <i t-if="doc.based_on_proprietary == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.based_on_proprietary == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    NO
+                                                    <br/>
+                                                    Does the supplier confirm to Legal requirements
+                                                    <i t-if="doc.legal_requirements == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.legal_requirements == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    YES
+                                                    <i t-if="doc.legal_requirements == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.legal_requirements == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    NO
+                                                    <br/>
+                                                    Does the supplier confirm to Contractual requirements
+                                                    <i t-if="doc.contractual_requirements == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.contractual_requirements == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    YES
+                                                    <i t-if="doc.contractual_requirements == 'yes'"
+                                                       class="fa fa-check-square-o"/>
+                                                    <i t-if="not doc.contractual_requirements == 'yes'"
+                                                       class="fa fa-square-o"/>
+                                                    NO
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <p>Audit/Verification Results (attach Audit report):</p>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td colspan="2">
+                                                    Approvals
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    Supply Chain Manager
+                                                </td>
+                                                <td>
+                                                    General Manager
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.supply_chain_manager_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.general_manager_id"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <p>
+                                        REG. NO. :
+                                        <span t-field="doc.reg_no"/>
+                                    </p>
+                                    <p>
+                                        Date :
+                                        <span t-field="doc.date"/>
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_vendor_registration_form" model="ir.actions.report">
+            <field name="name">VENDOR REGISTRATION FORM</field>
+            <field name="model">vendor.registration</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_vendor_registration_form_view</field>
+            <field name="report_file">inquiry.report_vendor_registration_form_view</field>
+            <field name="binding_model_id" ref="model_vendor_registration"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('VENDOR REGISTRATION FORM-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

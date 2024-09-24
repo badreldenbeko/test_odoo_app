@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_gate_pass_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 class="pt-0 mt-0">Gate Pass</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT-FO/ST-13 Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <strong>Sl No.:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.inquiry_sale_id"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <strong>Date:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.scheduled_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="1">
+                                                    <strong>Shipped To.:</strong>
+                                                </td>
+                                                <td colspan="3">
+                                                    <span t-field="doc.inquiry_sale_id.partner_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Requested By:</strong>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+                                                    <strong>Emp ID No.:</strong>
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="25%">
+                                                    <strong>Driver Name:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.driver_name"/>
+                                                </td>
+                                                <td width="25%">
+                                                    <strong>Driver ID No:</strong>
+                                                </td>
+                                                <td width="25%">
+                                                    <span t-field="doc.driver_id"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="1">
+                                                    <strong>Driver Mobile No.:</strong>
+                                                </td>
+                                                <td colspan="3">
+                                                    <span t-field="doc.driver_mobile"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody>
+                                            <tr class="text-center">
+                                                <td width="10%">
+                                                    <strong>Sl No.</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>Item No.</strong>
+                                                </td>
+                                                <td width="20%">
+                                                    <strong>Part No.</strong>
+                                                </td>
+                                                <td width="50%">
+                                                    <strong>Description</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>Unit</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>Qty</strong>
+                                                </td>
+                                            </tr>
+
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.move_ids_without_package" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.barcode"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id.description_pickingout"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_uom"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.quantity"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered my-0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="50%">
+                                                    <strong>Comments</strong>
+                                                </td>
+                                                <td width="50%">
+                                                    <span t-field="doc.driver_comments"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr class="border-1">
+                                                <td width="50%">
+                                                    <strong>Received at :</strong>
+                                                </td>
+                                                <td width="50%"/>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Received by :</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.received_by"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Date :</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.received_date"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Signature:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm table-bordered">
+                                        <tbody class="border-1">
+                                            <tr>
+                                                <td width="50%">
+                                                    <strong>Authorized By</strong>
+                                                </td>
+                                                <td width="50%">
+                                                    <span t-field="user.name"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_gate_pass" model="ir.actions.report">
+            <field name="name">Gate Pass</field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_gate_pass_view</field>
+            <field name="report_file">inquiry.report_gate_pass_view</field>
+            <field name="binding_model_id" ref="model_stock_picking"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('Gate Pass-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

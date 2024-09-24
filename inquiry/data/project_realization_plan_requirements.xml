@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="req_1" model="project.realization.plan.requirements">
+            <field name="name">
+                Requirement of resources and work environment management
+            </field>
+        </record>
+
+        <record id="req_2" model="project.realization.plan.requirements">
+            <field name="name">
+                Product and customer-specified requirements
+            </field>
+        </record>
+
+        <record id="req_3" model="project.realization.plan.requirements">
+            <field name="name">
+                Any legal and other applicable requirements
+            </field>
+        </record>
+
+        <record id="req_4" model="project.realization.plan.requirements">
+            <field name="name">
+                Contingencies based on risk assessment
+            </field>
+        </record>
+
+        <record id="req_5" model="project.realization.plan.requirements">
+            <field name="name">
+                Design and development requirements
+            </field>
+        </record>
+
+        <record id="req_6" model="project.realization.plan.requirements">
+            <field name="name">
+                Required verification, validation, monitoring, measurement, inspection, and test activities specific to the product and the criteria for product acceptance
+            </field>
+        </record>
+
+        <record id="req_7" model="project.realization.plan.requirements">
+            <field name="name">
+                Management of change (MOC)
+            </field>
+        </record>
+
+    </data>
+</odoo>

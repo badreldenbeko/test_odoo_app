@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--        <record id="inquiry_followers_view_search" model="ir.ui.view">-->
+        <!--            <field name="name">inquiry.followers.view.search</field>-->
+        <!--            <field name="model">inquiry.followers</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <search string="">-->
+        <!--                    <filter name="my_requests" string="My Requests" domain="[('to_user_id', '=', uid)]"/>-->
+        <!--                </search>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <record id="inquiry_followers_view_form" model="ir.ui.view">
+            <field name="name">inquiry.followers.view.form</field>
+            <field name="model">inquiry.followers</field>
+            <field name="arch" type="xml">
+                <form string="inquiry_followers_form">
+                    <sheet>
+                        <group>
+                            <field name="inquiry_id" readonly="1"/>
+                            <field name="state"/>
+                            <field name="reject_reason" invisible="state != 'reject'" required="state == 'reject'"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="inquiry_followers_view_tree" model="ir.ui.view">
+            <field name="name">inquiry.followers.view.tree</field>
+            <field name="model">inquiry.followers</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" string="inquiry_followers_tree">
+                    <field name="inquiry_id" widget="selection"/>
+                    <field name="from_user_id"/>
+                    <field name="state" widget="badge" decoration-warning="state == 'send'"/>
+                    <field name="reject_reason"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="inquiry_followers_action" model="ir.actions.act_window">
+            <field name="name">Inquiry Followers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">inquiry.followers</field>
+            <field name="domain">[('to_user_id', '=', uid)]</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

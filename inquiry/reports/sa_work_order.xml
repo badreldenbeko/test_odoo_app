@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_sa_work_order_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h5>WORK ORDER</h5>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Date</td>
+                                                <td>Work Order No.</td>
+                                                <td>Project No.</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.date"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.name"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Client</td>
+                                                <td>Phone</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.partner_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.partner_id.phone"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Quotation No.</td>
+                                                <!--                                                <td>DRAWING No.</td>-->
+                                                <td>LPO / Contract No.</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.inquiry_sale_id.name"/>
+                                                </td>
+                                                <!--                                                <td/>-->
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.inquiry_sale_id.customer_po_no"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Required Completion Date</td>
+                                                <td>Start Date</td>
+                                                <td>End Date</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span t-field="doc.delivery_date"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.date_start"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.date_finished"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Delivery Note No.</td>
+                                                <td>INVOICE No.</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <t t-foreach="doc.print_wo_id.inquiry_sale_id.picking_ids" t-as="wo">
+                                                        <ul>
+                                                            <li>
+                                                                <span t-field="wo.name"/>
+                                                            </li>
+                                                        </ul>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <t t-foreach="doc.print_wo_id.inquiry_sale_id.invoice_ids"
+                                                       t-as="inv">
+                                                        <ul>
+                                                            <li>
+                                                                <span t-field="inv.name"/>
+                                                            </li>
+                                                        </ul>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>SL.No.</td>
+                                                <td>Item No.</td>
+                                                <td>Detail Scope Of Work</td>
+                                                <td>Drawing No.</td>
+                                                <td>Quantity</td>
+                                                <td>Unit</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="index" t-value="0"/>
+                                            <tr>
+                                                <td>
+                                                    <span t-esc="index"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.product_id.lot_producing_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.product_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.product_id.product_tmpl_id.drawing_no"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.product_qty"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.print_wo_id.product_uom_id"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <p>
+                                                <strong>Comments</strong><br/>
+                                                <span t-field="doc.print_wo_id.report_comment"/>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <td>Preparation <br/> Sales - Co-Ordinator</td>
+                                                <td>Release / Approval <br/> BDM</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><br/><br/></td>
+                                                <td><br/><br/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Sign Date</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>Sign Date</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td/>
+                                                <td/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_sa_work_order" model="ir.actions.report">
+            <field name="name">SA - Work Order</field>
+            <field name="model">inquiry.inquiry</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_sa_work_order_view</field>
+            <field name="report_file">inquiry.report_sa_work_order_view</field>
+            <field name="binding_model_id" ref="model_inquiry_inquiry"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">('SA-Work Order-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_pp_ptc_machining_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>PRODUCT DESCRIPTION</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.product_id"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>WO NO:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.name"/>
+                                                    <span t-field="doc.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:350px;height:60px'}"/>
+                                                </td>
+                                                <td>
+                                                    <strong>DRAWING NO:</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>DOT PROJECT NO:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.inquiry_sale_id.inquiry_id"/>
+                                                </td>
+                                                <td>
+                                                    <strong>REF PO NO:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.inquiry_sale_id.customer_po_no"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>CUSTOMER:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.inquiry_sale_id.partner_id"/>
+                                                </td>
+                                                <td>
+                                                    <strong>QUANTITY:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.product_qty"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>SPECIFICATION TO FOLLOW IF ANY:</strong>
+                                                </td>
+                                                <td>
+                                                    <span t-field="doc.specification_to_follow"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>ISSUE DATE:</strong>
+                                                </td>
+                                                <td/>
+                                                <td>
+                                                    <strong>Material Grade :</strong>
+                                                </td>
+                                                <td/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered mb-0">
+                                        <thead>
+                                            <tr>
+                                                <td width="5%">
+                                                    <strong>No.</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>MANUFACTURING PROCESS</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>RESPONSIBLE SECTION</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>MACHINE</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>REF DOCUMENTS / WORK INSTRUCTIONS</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>ACCEPTANCE CRITERIA</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>QC INTERVENTION (H, I, W,M)</strong>
+                                                </td>
+<!--                                                <td>-->
+<!--                                                    <strong>CHECKED BY</strong>-->
+<!--                                                </td>-->
+                                                <td>
+                                                    <strong>CHECKED DATE</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>REMARKS</strong>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.workorder_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.name"/>
+                                                        <span t-field="line.barcode" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:100%;height:35px'}"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.responsible"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.workcenter_id"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.work_instructions"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.acceptance_criteria"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.qc_intervention"/>
+                                                    </td>
+<!--                                                    <td>-->
+<!--                                                        <span t-field="line.acc_rej_emp"/>-->
+<!--                                                    </td>-->
+                                                    <td>
+                                                        <span t-field="doc.date_start"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.acc_remarks"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td colspan="3" />
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 1</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 2</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 3</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 4</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 5</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 6</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PROCESS NO 7</strong>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td width="5%">
+                                                    <strong>No.</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>PRODUCT NO:</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>HEAT NUMBER / TC#</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                                <td width="10%">
+                                                    <strong>ACCEPT/REJECT</strong>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="index" t-value="0"/>
+                                            <t t-foreach="doc.move_raw_ids" t-as="line">
+                                                <t t-set="index" t-value="index + 1"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="index"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.product_id"/>
+                                                    </td>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                    <td/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="row text-center my-3">
+                                <div class="col-4">
+                                    <strong>Prepared by: Manufacturing Engineer</strong>
+                                </div>
+                                <div class="col-4">
+                                    <strong>Reviewed by: QA/QC Manager</strong>
+                                </div>
+                                <div class="col-4">
+                                    <strong>Approved by: Operations Manager</strong>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <h5>MARKING DETAILS:</h5>
+                                    <p>DYNAMIC OIL TOOLS</p>
+                                    <p>ITEM DESCRIPTION:</p>
+                                    <p>MATERIAL GARDE/YIELD:</p>
+                                    <p>PCN:</p>
+                                    <p>SN#:</p>
+                                    <p>SAUDI MADE</p>
+                                    <p>DOM:</p>
+                                </div>
+                                <div class="col-3">
+                                    <h5>MARKING METHOD:</h5>
+                                    <p>LOW STRESS MARKING</p>
+                                    <p>PUNCH</p>
+                                    <p>STENCILING</p>
+                                    <p>ENGRAVING</p>
+                                </div>
+                                <div class="col-3">
+                                    <h5>MARKING LOCATION:</h5>
+                                    <p>DRAWING</p>
+                                    <p>ACCESSIBLE OD SURFACE</p>
+                                    <p>AS PER INSTRUCTIONS</p>
+                                </div>
+                                <div class="col-3">
+                                    <h5>INSPECTION LEGENDS:</h5>
+                                    <p>H (HOLD)</p>
+                                    <p>I (INSPECTION)</p>
+                                    <p>W (WITNESS)</p>
+                                    <p>M ( MONITOR)</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="paper_format_land_scape_3_reports" model="report.paperformat">
+            <field name="name">PP-PTC-MACHINING</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">175</field>
+            <field name="disable_shrinking" eval="True"/>
+        </record>
+
+        <record id="report_pp_ptc_machining" model="ir.actions.report">
+            <field name="name">PP-PTC-MACHINING</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_pp_ptc_machining_view</field>
+            <field name="report_file">inquiry.report_pp_ptc_machining_view</field>
+            <field name="binding_model_id" ref="model_mrp_production"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paper_format_land_scape_3_reports"/>
+            <field name="print_report_name">('PP-PTC-MACHINING-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

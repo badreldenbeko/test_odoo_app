@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="price_conditions" model="inquiry.commercial">
+            <field name="name">
+                Price Conditions
+            </field>
+        </record>
+
+        <record id="payment_terms" model="inquiry.commercial">
+            <field name="name">
+                Payment Terms
+            </field>
+        </record>
+
+        <record id="legal_obligation" model="inquiry.commercial">
+            <field name="name">
+                Legal Obligation
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_manufacturing_process_summary_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+                            <h3 class="text-center mb-2">Manufacturing Process Summary</h3>
+
+                            <table class="table table-sm table-bordered">
+                                <tbody class="border-1">
+                                    <tr>
+                                        <td>PROJECT NAME:</td>
+                                        <td><span t-field="doc.product_id"/></td>
+                                        <td>ORDER QTY</td>
+                                        <td><span t-field="doc.product_qty"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DOT PROJECT NUMBER:</td>
+                                        <td><span t-field="doc.inquiry_id"/></td>
+                                        <td>DUE DATE:</td>
+                                        <td><span t-field="doc.date_start"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>START DATE:</td>
+                                        <td><span t-field="doc.date_start"/></td>
+                                        <td>END DATE:</td>
+                                        <td><span t-field="doc.date_finished"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>SR#</td>
+                                        <td>MANUFACTURING PROCESS</td>
+                                        <td>MACHINE</td>
+                                        <td>NO OF OPERATORS</td>
+                                        <td>OPERATORS</td>
+                                        <td>INITIAL SET-UP TIME</td>
+                                        <td>PRODUCTION TIME</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <t t-set="index" t-value="0"/>
+                                    <t t-foreach="doc.workorder_ids" t-as="opr">
+                                        <t t-set="index" t-value="index + 1"/>
+                                        <tr>
+                                            <td><span t-esc="index"/></td>
+                                            <td><span t-field="opr.name"/></td>
+                                            <td><span t-field="opr.workcenter_id"/></td>
+                                            <td><span t-field="opr.operation_id.employee_ratio"/></td>
+                                            <td>
+                                                <ul>
+                                                    <t t-foreach="opr.time_ids" t-as="emp">
+                                                        <li><span t-field="emp.user_id"/> - Duration <span t-field="emp.duration"/> - Cost <span t-field="emp.real_employee_cost"/></li>
+                                                    </t>
+                                                </ul>
+                                            </td>
+                                            <td><span t-field="opr.workcenter_id.time_start"/></td>
+                                            <td><span t-field="opr.operation_id.time_cycle_manual"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="report_manufacturing_summary_sheet" model="ir.actions.report">
+            <field name="name">Manufacturing Process Summary</field>
+            <field name="model">mrp.production</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_manufacturing_process_summary_view</field>
+            <field name="report_file">inquiry.report_manufacturing_process_summary_view</field>
+            <field name="binding_model_id" ref="model_mrp_production"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paper_format_land_scape_3_reports"/>
+            <field name="print_report_name">('Manufacturing Process Summary-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

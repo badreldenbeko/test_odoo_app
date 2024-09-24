@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--    Form    -->
+        <record id="inquiry_view_form" model="ir.ui.view">
+            <field name="name">inquiry.view.form</field>
+            <field name="model">inquiry.inquiry</field>
+            <field name="arch" type="xml">
+                <form string="inquiry_form" create="0">
+                    <header>
+                        <button class="btn btn-primary btn-sm" string="Initial Contract" type="object"
+                                name="check_inquiry_requirements" invisible="state != 'draft'"/>
+
+                        <button class="btn btn-primary btn-sm" string="Create Costing" type="object"
+                                name="create_bqr_from_inquiry"
+                                invisible="state not in ['initial'] or bqr_count > 0 or not all_followers_accept"/>
+
+                        <button class="btn btn-primary btn-sm" string="Create Quotation"
+                                invisible="state == 'draft' or not all_followers_accept"
+                                type="object" name="create_sale_order_from_service_lines"/>
+
+                        <button class="btn btn-default btn-sm" string="Back to draft" type="object"
+                                name="back_to_stage" context="{'state': 'draft'}" invisible="state == 'draft'"/>
+
+                        <button class="btn btn-primary btn-sm" string="Back to Review" type="object"
+                                name="back_to_stage" groups="sales_team.group_sale_salesman"
+                                context="{'state': 'final'}" invisible="state != 'done'"/>
+
+                        <button class="btn btn-primary btn-sm" string="Create Review" type="object"
+                                name="create_review_from_inquiry" groups="sales_team.group_sale_salesman"/>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,initial,final,done,regret,review_one"/>
+                    </header>
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <field name="project_count" invisible="1"/>
+                            <field name="bqr_count" invisible="1"/>
+                            <field name="rfq_count" invisible="1"/>
+                            <field name="reserve_count" invisible="1"/>
+                            <field name="sale_order_count" invisible="1"/>
+                            <field name="manufacturing_order_count" invisible="1"/>
+                            <field name="children_count" invisible="1"/>
+
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="Project"
+                                    invisible="project_count == 0"
+                                    name="open_view_inquiry_projects">
+                            </button>
+
+                            <button class="oe_stat_button" icon="fa-usd" type="object" string="Costing"
+                                    invisible="bqr_count == 0"
+                                    name="open_view_inquiry_bqrs">
+                            </button>
+
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="RFQs"
+                                    invisible="rfq_count == 0"
+                                    name="open_view_inquiry_rfqs">
+                                <field string="RFQs" name="rfq_count" widget="statinfo"/>
+                            </button>
+
+                            <!--                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="Reserved"-->
+                            <!--                                    invisible="reserve_count == 0"-->
+                            <!--                                    name="open_view_inquiry_reserve">-->
+                            <!--                                <field string="Reserved" name="reserve_count" widget="statinfo"/>-->
+                            <!--                            </button>-->
+
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="Quotations"
+                                    name="open_view_inquiry_sale_order">
+                                <field string="Quotations" name="sale_order_count" widget="statinfo"/>
+                            </button>
+
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="Work Orders"
+                                    name="open_view_inquiry_mrp_production">
+                                <field string="Work Orders" name="manufacturing_order_count" widget="statinfo"/>
+                            </button>
+
+                            <button class="oe_stat_button" icon="fa-pencil-square-o" type="object" string="Reviews"
+                                    name="open_inquiry_reviews">
+                                <field string="Reviews" name="children_count" widget="statinfo"/>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="Customer Info.">
+                                <field name="partner_id" readonly="1"/>
+                                <field name="partner_rfq_ref_no"/>
+                                <field name="partner_rfq_ref_date"/>
+                                <field name="sale_order_id" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="Inquiry Settings">
+                                <field name="parent_id"/>
+                                <field name="job_category" readonly="1"/>
+                                <field name="trading_job_category" invisible="job_category not in ['trading']"
+                                       readonly="1"/>
+                                <field name="has_prp" string="PRP" invisible="1" readonly="1"/>
+                            </group>
+
+                            <group string="Inquiry Info.">
+                                <field name="date" readonly="state not in ['draft', 'initial']"/>
+                                <field name="delivery_date" readonly="state not in ['draft', 'initial']"/>
+                                <field name="confirmed_delivery_date" readonly="state not in ['draft', 'initial']"/>
+                                <field name="payment_terms_id" placeholder="Select payment terms"
+                                       readonly="state not in ['draft', 'initial']"/>
+                                <field name="delivery_terms" placeholder="Select delivery terms"
+                                       readonly="state not in ['draft', 'initial']"/>
+                                <field name="incoterm_id" placeholder="Select incoterms"
+                                       readonly="state not in ['draft', 'initial']"/>
+                                <field name="analytic_account_id" readonly="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="warehouse_id" invisible="1"/>
+                            </group>
+                        </group>
+
+                        <group string="Work Order">
+                            <group>
+                                <field name="sale_order_id" domain="[('inquiry_id', '=', active_id)]"/>
+                                <button class="btn btn-primary btn-sm" string="Create"
+                                        type="object" name="create_mrp_production_from_service_lines"
+                                        invisible="not sale_order_id"/>
+                            </group>
+                        </group>
+
+
+                        <notebook>
+
+                            <page string="Scope Of Product" groups="sales_team.group_sale_salesman">
+                                <group>
+                                    <field name="is_manufacturing"/>
+                                    <field name="is_field_service"/>
+                                    <field name="is_repair_or_service"/>
+                                </group>
+                                <field name="scope_of_product_ids">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="scope_of_product_id" widget="selection" readonly="1"/>
+                                        <field name="is_checked"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Description of Work" groups="sales_team.group_sale_salesman">
+                                <field name="description_of_work" placeholder="Description of work ..."/>
+                            </page>
+
+                            <page string="Line Items" invisible="job_category != 'service'">
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="margin_type"/>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="apply_extra_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+
+                                <h3>Services</h3>
+                                <field name="service_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id" widget="selection"/>
+                                        <field name="product_qty"/>
+                                        <field name="standard_price" widget="monetary" optional="1"/>
+                                        <field name="total_standard_price" widget="monetary" optional="1"/>
+                                        <field name="price_with_margin" widget="monetary"/>
+                                        <field name="total_price_margin" widget="monetary"/>
+                                        <field name="margin_type" column_invisible="1"/>
+                                        <field name="margin"/>
+                                        <field name="margin_simple" string=""/>
+                                        <field name="price_with_extra_margin" widget="monetary"/>
+                                        <field name="total_with_extra_margin" widget="monetary"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+
+                            <page string="Finished Products" invisible="trading_job_category != 'finished'">
+
+                                <h3>Finished Products</h3>
+                                <field name="trading_finished_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id" widget="selection"/>
+                                        <field name="product_qty"/>
+                                        <field name="standard_price" widget="monetary" optional="1"/>
+                                        <field name="total_standard_price" widget="monetary" optional="1"/>
+                                        <field name="price_with_margin" widget="monetary"/>
+                                        <field name="total_price_margin" widget="monetary"/>
+                                        <field name="margin_type" column_invisible="1"/>
+                                        <field name="margin"/>
+                                        <field name="margin_simple" string=""/>
+                                        <field name="price_with_extra_margin" widget="monetary"/>
+                                        <field name="total_with_extra_margin" widget="monetary"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+
+                            <page string="Semi Finished Products" invisible="trading_job_category != 'semi_finished'">
+
+                                <h3>Semi Finished Products</h3>
+                                <field name="trading_semi_finished_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id" widget="selection"/>
+                                        <field name="product_qty"/>
+                                        <field name="standard_price" widget="monetary" optional="1"/>
+                                        <field name="total_standard_price" widget="monetary" optional="1"/>
+                                        <field name="price_with_margin" widget="monetary"/>
+                                        <field name="total_price_margin" widget="monetary"/>
+                                        <field name="margin_type" column_invisible="1"/>
+                                        <field name="margin"/>
+                                        <field name="margin_simple" string=""/>
+                                        <field name="price_with_extra_margin" widget="monetary"/>
+                                        <field name="total_with_extra_margin" widget="monetary"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+
+                            <page string="Manufacturing Products" name="manufacturing"
+                                  invisible="job_category != 'manufacturing'">
+
+                                <group string="Price Margin">
+                                    <group>
+                                        <group>
+                                            <field name="margin_type"/>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <field name="margin"/>
+                                        </group>
+                                        <group>
+                                            <button class="btn btn-primary" string="Apply" type="object"
+                                                    name="apply_extra_margin"/>
+                                        </group>
+                                    </group>
+                                </group>
+
+                                <h3>Manufacturing Products</h3>
+                                <field name="manufacturing_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id" widget="selection"/>
+                                        <field name="state" column_invisible="True"/>
+                                        <field name="product_qty" readonly="state not in ['draft', 'initial']"/>
+                                        <field name="standard_price" widget="monetary" optional="1"/>
+                                        <field name="total_standard_price" widget="monetary" optional="1"/>
+                                        <field name="price_with_margin" widget="monetary"/>
+                                        <field name="total_price_margin" widget="monetary"/>
+                                        <field name="margin_type" column_invisible="1"/>
+                                        <field name="margin"/>
+                                        <field name="margin_simple" string=""/>
+                                        <field name="price_with_extra_margin" widget="monetary"/>
+                                        <field name="total_with_extra_margin" widget="monetary"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+
+                            <page string="Initial Review" groups="sales_team.group_sale_salesman">
+                                <field name="initial_review_ids">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="initial_review_id" widget="selection" readonly="1"/>
+                                        <field name="status" widget="radio"/>
+                                        <button class="btn btn-primary btn-sm" string="Reset" type="object"
+                                                name="reset_review"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <!--                            <page string="New Product" invisible="job_category != 'manufacturing' or not new_product">-->
+                            <!--                                <div class="oe_title">-->
+                            <!--                                    <h1>-->
+                            <!--                                        <field name="new_product_name" readonly="mrp_eco_line_count > 0"-->
+                            <!--                                               required="new_product" placeholder="New Product Name"/>-->
+                            <!--                                    </h1>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="text-center mb-3">-->
+                            <!--                                    <button class="btn btn-sm btn-primary" string="New PLM" type="object"-->
+                            <!--                                            name="create_new_plm" invisible="mrp_eco_line_count > 0"/>-->
+                            <!--                                </div>-->
+                            <!--                                <field name="new_product" invisible="1"/>-->
+                            <!--                                <field name="mrp_eco_line_count" invisible="1"/>-->
+                            <!--                                <field name="new_product_design" invisible="not new_product" readonly="1" widget="badge"-->
+                            <!--                                       decoration-warning="1"/>-->
+
+                            <!--                                <field name="mrp_eco_ids">-->
+                            <!--                                    <tree create="0" editable="bottom">-->
+                            <!--                                        <field name="mrp_eco_id" readonly="1"/>-->
+                            <!--                                        <field name="product_id" readonly="1"/>-->
+                            <!--                                        <field name="state" readonly="1" decoration="badge"/>-->
+                            <!--                                    </tree>-->
+                            <!--                                </field>-->
+                            <!--                            </page>-->
+
+                            <page string="Additional Items">
+                                <h3>Additional Items</h3>
+                                <field name="tools_supplies_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id" required="1"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id" widget="selection"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="move_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Additional Requirements">
+                                <h3>Requirements</h3>
+                                <field name="requirement_line_ids">
+                                    <tree>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                        <field name="requirement_type" widget="badge" decoration-primary="1"/>
+                                        <field name="attach_type" widget="badge"
+                                               decoration-secondary="attach_type == 'pdf'"
+                                               decoration-warning="attach_type == 'image'"
+                                               invisible="requirement_type != 'file'"/>
+                                        <field name="state" widget="badge" decoration-success="state == 'done'"/>
+                                    </tree>
+
+                                    <form>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="requirement_type" widget="radio"/>
+                                            <field name="attach_type" widget="radio"
+                                                   invisible="requirement_type == 'info'"/>
+                                            <field name="info"
+                                                   invisible="requirement_type  == 'file'"/>
+                                            <field name="file"
+                                                   invisible="requirement_type  == 'info' or attach_type  == 'image'"
+                                                   widget="pdf_viewer"/>
+                                            <field name="image"
+                                                   invisible="requirement_type  == 'info' or attach_type  == 'pdf'"
+                                                   widget="image"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page string="Order Acceptance">
+                                <group>
+                                    <group string="Order Acceptance">
+                                        <field name="order_acceptance"/>
+                                        <field name="order_acceptance_detail"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Customer Requirements">
+                                <group string="Customer Requirements">
+                                    <field name="customer_requirements_detail"
+                                           string="Requirement not stated by customer, deemed necessary for the provision of product"/>
+                                </group>
+                            </page>
+
+                            <page string="Amendment Review">
+                                <group string="Amendment Review">
+                                    <field name="amendment_review"/>
+                                </group>
+                            </page>
+
+                            <page string="Machinery &amp; Tools">
+                                <field name="machinery_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="product_uom_category_id" column_invisible="True"/>
+                                        <field name="product_uom_id" widget="selection"/>
+                                        <field name="product_qty"/>
+                                        <field name="qty_available_today" string="Available Qty" column_invisible="0"/>
+                                        <field name="state" column_invisible="1"/>
+                                        <field name="move_ids" widget="many2many_tags" column_invisible="1"/>
+                                        <field name="virtual_available_at_date" column_invisible="1"/>
+                                        <field name="free_qty_today" column_invisible="1"/>
+                                        <field name="scheduled_date" column_invisible="1"/>
+                                        <field name="forecast_expected_date" column_invisible="1"/>
+                                        <field name="warehouse_id" column_invisible="1"/>
+                                        <field name="product_uom_category_id" column_invisible="1"/>
+                                        <field name="qty_to_deliver" column_invisible="1"/>
+                                        <field name="display_qty_widget" column_invisible="1"/>
+                                        <widget name="qty_at_date_widget" width="0.1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Product Realization Plan" invisible="not has_prp">
+                                <field name="prp_ids">
+                                    <tree create="0" editable="bottom">
+                                        <field name="prp_requirements" widget="selection" readonly="1"/>
+                                        <field name="result_of_requirement"/>
+                                        <field name="responsibility"/>
+                                        <field name="target_date"/>
+                                        <field name="final_output_of_planning"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Commercial"
+                                  groups="sales_team.group_sale_salesman">
+
+                                <group>
+                                    <group string="Documentation Requirements">
+                                        <field name="commercial_tax"/>
+                                        <field name="commercial_insurance"/>
+                                        <field name="commercial_others"/>
+                                        <field name="commercial_dr_comment"/>
+                                    </group>
+                                    <group string="Documents needed for Shipment">
+                                        <field name="commercial_invoice"/>
+                                        <field name="commercial_d_note"/>
+                                        <field name="commercial_packing_list"/>
+                                        <field name="commercial_lpo"/>
+                                        <field name="commercial_dns_comment"/>
+                                    </group>
+                                </group>
+
+                                <field name="commercial_line_ids">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="commercial_id" readonly="1"/>
+                                        <field name="satisfied"/>
+                                        <field name="not_satisfied"/>
+                                        <field name="comments"/>
+                                    </tree>
+                                </field>
+
+                                <group>
+                                    <group string="Additional Comments">
+                                        <field name="commercial_comments" string=""/>
+                                    </group>
+
+                                    <group>
+                                        <field name="bdm_id"/>
+                                        <field name="bdm_date"/>
+                                    </group>
+                                </group>
+
+                            </page>
+
+                            <page string="Design &amp; Development">
+                                <group>
+                                    <group>
+                                        <field name="design_status"/>
+                                    </group>
+                                    <group>
+                                        <button class="btn btn-primary" type="object" name="apply_design_status"
+                                                string="Apply"/>
+                                    </group>
+                                </group>
+                                <h3>Design &amp; Development</h3>
+                                <field name="design_development_ids">
+                                    <tree create="0" delete="0" editable="bottom">
+                                        <field name="design_development_id" readonly="1"/>
+                                        <field name="selection_label" widget="badge"
+                                               decoration-success="status == 'yes'"
+                                               decoration-danger="status == 'no'"/>
+                                        <field name="status"/>
+                                        <field name="comments"/>
+                                    </tree>
+                                </field>
+
+                                <group string="Design Review">
+                                    <group>
+                                        <field name="attached_design"/>
+                                        <field name="attached_design_comments"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group string="Additional Comments">
+                                        <field name="design_development_comments" string=""/>
+                                    </group>
+
+                                    <group>
+                                        <field name="tm_id"/>
+                                        <field name="tm_date"/>
+                                    </group>
+                                </group>
+
+
+                            </page>
+
+                            <page string="Planning"
+                                  groups="quality.group_quality_user">
+                                <h3>Planning</h3>
+
+                                <group>
+                                    <field name="contingencies_based_on_ra_text" widget="badge" string=""
+                                           decoration-success="contingencies_based_on_ra"
+                                           decoration-danger="not contingencies_based_on_ra"/>
+                                    <field name="contingencies_based_on_ra"/>
+                                    <field name="contingencies_based_on_ra_comments"/>
+                                </group>
+
+                                <group string="Availability of Resources">
+                                    <group>
+                                        <field name="manpower_text" widget="badge" string=""
+                                               decoration-danger="not manpower" decoration-success="manpower"/>
+                                        <field name="manpower"/>
+                                        <field name="manpower_comments"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="machine_text" widget="badge" string=""
+                                               decoration-danger="not machine" decoration-success="machine"/>
+                                        <field name="machine"/>
+                                        <field name="machine_comments"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group string="Material Availability">
+                                        <field name="material_availability_free_issue"/>
+                                        <field name="material_availability_supply"/>
+                                        <field name="material_availability_comment"/>
+                                    </group>
+
+                                    <group string="If Supply, Type of Material &amp; Material Grade &amp; Service Conditions">
+                                        <field name="raw_material_forged"/>
+                                        <field name="raw_material_casted"/>
+                                        <field name="raw_material_rod_pip" string="Rod / Pipe"/>
+                                        <field name="raw_material_others"/>
+                                        <field name="raw_material_comment"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group string="Supply">
+                                        <field name="supply_availability_text" string="" widget="badge"
+                                               decoration-success="supply_availability == 'yes'"
+                                               decoration-danger="supply_availability == 'no'"
+                                               invisible="supply_availability == None"/>
+                                        <field name="supply_availability"/>
+                                        <field name="supply_availability_comment"/>
+                                        <field name="supply_imported_text" string="" widget="badge"
+                                               decoration-danger="supply_imported == 'no'"
+                                               decoration-success="supply_imported == 'yes'"/>
+                                        <field name="supply_imported"/>
+                                        <field name="supply_imported_comment"/>
+                                    </group>
+
+                                    <group string="Job &amp; Planning">
+                                        <field name="job_required_by"/>
+                                        <field name="planned_completion_on"/>
+                                        <field name="job_planned_comment"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group string="Drawings">
+                                        <field name="additional_drawing_text" widget="badge" string=""
+                                               decoration-success="not additional_drawing_needed"
+                                               decoration-danger="additional_drawing_needed"/>
+                                        <field name="additional_drawing_needed"/>
+                                        <field name="additional_drawing_comment"/>
+                                        <field name="drawing_selection_type" string="Drawing Type"/>
+                                    </group>
+                                    <group string="Drawing Type">
+                                        <field name="drawing_type_ga"/>
+                                        <field name="drawing_type_pid"/>
+                                        <field name="drawing_type_iso"/>
+                                        <field name="drawing_type_shop"/>
+                                        <field name="drawing_type_sketch"/>
+                                        <field name="drawing_type_sketch_ws"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <group>
+                                        <field name="planning_additional_comment"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="om_id"/>
+                                        <field name="om_date"/>
+                                    </group>
+                                </group>
+
+                            </page>
+
+                            <page string="QA/QC"
+                                  groups="quality.group_quality_user">
+                                <h3>QA/QC</h3>
+
+                                <field name="qa_qc_ids">
+                                    <tree create="0" editable="bottom" delete="0">
+                                        <field name="qa_qc_id" readonly="1"/>
+                                        <field name="status"/>
+                                        <field name="comments"/>
+                                    </tree>
+                                </field>
+
+                                <group>
+                                    <group>
+                                        <field name="qa_qc_comments"/>
+                                    </group>
+
+                                    <group>
+                                        <field name="qcm_id"/>
+                                        <field name="qcm_date"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Inquiry Followers">
+                                <button class="btn btn-primary" string="Add Follower" type="action"
+                                        name="%(inquiry.inquiry_follower_wizard_action)d"
+                                        context="{'inquiry_id': active_id}"/>
+                                <field name="all_followers_accept" invisible="1"/>
+                                <field name="inquiry_followers_ids">
+                                    <tree create="0" editable="bottom">
+                                        <field name="to_user_id" widget="selection" readonly="1"/>
+                                        <field name="state" readonly="1"/>
+                                        <field name="reject_reason" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Risk Identification Note">
+                                <group>
+                                    <group>
+                                        <field name="risk_identification"/>
+                                        <field name="risk_identification_file" invisible="not risk_identification"
+                                               required="risk_identification"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="risk_identification_comment"/>
+                                </group>
+                            </page>
+
+                            <page string="Print Reports">
+                                <group>
+                                    <group string="Print WO">
+                                        <field name="print_wo_id" domain="[('inquiry_id', '=', active_id)]"/>
+                                        <field name="print_wo_comment" invisible="print_wo_id == None"/>
+                                        <button class="btn-primary" type="action"
+                                                name="%(inquiry.report_sa_work_order)d" invisible="not print_wo_id">
+                                            <i class="fa fa-print"/>
+                                            Print
+                                        </button>
+                                    </group>
+
+                                    <group string="Print Contract Review">
+                                        <field name="post_review_sale_order_id"
+                                               domain="[('inquiry_id', '=', active_id)]"/>
+                                        <button class="btn-primary" type="action"
+                                                name="%(inquiry.report_inquiry_order_contract_review)d"
+                                                invisible="not post_review_sale_order_id">
+                                            <i class="fa fa-print"/>
+                                            Print Contract Review
+                                        </button>
+                                    </group>
+                                </group>
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!--    KANBAN    -->
+        <record id="inquiry_kanban" model="ir.ui.view">
+            <field name="name">inquiry.kanban</field>
+            <field name="model">inquiry.inquiry</field>
+            <field name="arch" type="xml">
+                <kanban on_create="%(inquiry_create_wizard_action)d">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="o_kanban_card_content">
+                                <a name="open_record" type="object">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-5 mb-3 mb-sm-0 o_kanban_primary_left">
+                                            <h6 class="text-primary">
+                                                <field name="name"/>
+                                            </h6>
+                                        </div>
+                                        <div class="d-flex flex-row">
+                                            <div>
+                                                <span title="icon"
+                                                      class="fa fa-fw fa-regular fa-user mr-3 text-primary"/>
+                                            </div>
+                                            <div>
+                                                <field name="partner_id"/>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row">
+                                            <div>
+                                                <span title="icon"
+                                                      class="fa fa-fw fa-regular fa-object-group mr-3 text-primary"/>
+                                            </div>
+                                            <div>
+                                                <field name="job_category"/>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row">
+                                            <div>
+                                                <span title="icon"
+                                                      class="fa fa-fw fa-regular fa-calendar mr-3 text-primary"/>
+                                            </div>
+                                            <div>
+                                                <field name="date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--    Action    -->
+        <record id="inquiry_action" model="ir.actions.act_window">
+            <field name="name">Inquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">inquiry.inquiry</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
+        </record>
+
+    </data>
+</odoo>

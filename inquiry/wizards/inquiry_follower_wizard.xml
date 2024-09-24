@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="inquiry_follower_wizard" model="ir.ui.view">
+            <field name="name">inquiry.follower.wizard</field>
+            <field name="model">inquiry.follower.wizard</field>
+            <field name="arch" type="xml">
+                <form string="New Inquiry Follower">
+                    <group>
+                        <group >
+                            <field name="user_id" placeholder="Select Follower"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="add_inquiry_follower" string="Add" type="object" class="btn-primary"
+                                data-hotkey="c"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="inquiry_follower_wizard_action" model="ir.actions.act_window">
+            <field name="name">Add Follower</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">inquiry.follower.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="inquiry_follower_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

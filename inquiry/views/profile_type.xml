@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+
+        <record id="inquiry_profile_type_view_form" model="ir.ui.view">
+            <field name="name">inquiry.profile.type.view.form</field>
+            <field name="model">profile.type</field>
+            <field name="arch" type="xml">
+                <form string="profile_type_form">
+                    <sheet>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="profile_type_view_tree" model="ir.ui.view">
+            <field name="name">profile.type.view.tree</field>
+            <field name="model">profile.type</field>
+            <field name="arch" type="xml">
+                <tree string="profile_type_tree" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="profile_type_action" model="ir.actions.act_window">
+            <field name="name">Profile Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">profile.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

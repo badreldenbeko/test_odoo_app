@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <template id="report_product_realization_plan_view">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="page">
+
+                            <div class="row mt-0 pt-0">
+                                <div class="col-6 ">
+                                    <h2 style="font-size: 24px;">PRODUCT REALIZATION PLAN</h2>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-end text-danger">
+                                        DOT-FO/SA-04/Rev.00
+                                        <br/>
+                                        Effective date: 01st Dec 2023
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-2" style="border-bottom: 1px solid #AF6402;"/>
+
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="my-0">
+                                        <strong>
+                                            Inquiry No.:
+                                        </strong>
+                                        <span t-field="doc.name"/>
+                                    </p>
+                                    <p class="my-0">
+                                        <strong>
+                                            Inquiry Date:
+                                        </strong>
+                                        <span t-field="doc.date"/>
+                                    </p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="my-0">
+                                        <strong>
+                                            Delivery Date:
+                                        </strong>
+                                        <span t-field="doc.delivery_date"/>
+                                    </p>
+                                    <p class="my-0">
+                                        <strong>
+                                            Customer:
+                                        </strong>
+                                        <span t-field="doc.partner_id"/>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row my-3">
+                                <div class="col">
+                                    <h5>
+                                        <strong>Product Description</strong>
+                                    </h5>
+                                    <ul>
+                                        <t t-if="doc.service_line_ids">
+                                            <t t-foreach="doc.service_line_ids" t-as="line">
+                                                <li>
+                                                    <span t-field="line.product_id"/>
+                                                </li>
+                                            </t>
+                                        </t>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <td width="35%">
+                                                    Planning Requirements
+                                                </td>
+                                                <td>
+                                                    Result of Requirements
+                                                </td>
+                                                <td>
+                                                    Responsibility
+                                                </td>
+                                                <td>
+                                                    Target Date
+                                                </td>
+                                                <td>
+                                                    Final Output of Planning / Reference
+                                                </td>
+                                                <td>
+                                                    REMARKS
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.prp_ids" t-as="line">
+                                                <tr>
+                                                    <td>
+                                                        <span t-field="line.prp_requirements"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.result_of_requirement"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.responsibility"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.target_date"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.final_output_of_planning"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-field="line.remarks"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+<!--                            <div class="row mt-3">-->
+<!--                                <div class="col">-->
+<!--                                    <table class="table table-sm table-bordered my-0">-->
+<!--                                        <thead>-->
+<!--                                            <tr>-->
+<!--                                                <td>Name</td>-->
+<!--                                                <td>Sign</td>-->
+<!--                                                <td>Comment</td>-->
+<!--                                            </tr>-->
+<!--                                        </thead>-->
+<!--                                        <tbody>-->
+<!--                                            <t t-if="doc.sale_post_review">-->
+<!--                                                <tr>-->
+<!--                                                    <td><span t-field="doc.sale_manager_id"/> </td>-->
+<!--                                                    <td>-->
+<!--                                                    <span t-if="doc.sale_manager_id.sign" t-field="doc.sale_manager_id.sign"-->
+<!--                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>-->
+<!--                                                </td>-->
+<!--                                                    <td><span t-field="doc.sale_post_review_comment"/> </td>-->
+<!--                                                </tr>-->
+<!--                                            </t>-->
+<!--                                            <t t-if="doc.technical_post_review">-->
+<!--                                                <tr>-->
+<!--                                                    <td><span t-field="doc.technical_manager_id"/> </td>-->
+<!--                                                    <td>-->
+<!--                                                    <span t-if="doc.technical_manager_id.sign" t-field="doc.technical_manager_id.sign"-->
+<!--                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>-->
+<!--                                                </td>-->
+<!--                                                    <td><span t-field="doc.technical_post_review_comment"/> </td>-->
+<!--                                                </tr>-->
+<!--                                            </t>-->
+<!--                                            <t t-if="doc.operation_post_review">-->
+<!--                                                <tr>-->
+<!--                                                    <td><span t-field="doc.operation_manager_id"/> </td>-->
+<!--                                                    <td>-->
+<!--                                                    <span t-if="doc.operation_manager_id.sign" t-field="doc.operation_manager_id.sign"-->
+<!--                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>-->
+<!--                                                </td>-->
+<!--                                                    <td><span t-field="doc.operation_post_review_comment"/> </td>-->
+<!--                                                </tr>-->
+<!--                                            </t>-->
+<!--                                            <t t-if="doc.qa_qc_post_review">-->
+<!--                                                <tr>-->
+<!--                                                    <td><span t-field="doc.qa_qc_manager_id"/> </td>-->
+<!--                                                    <td>-->
+<!--                                                    <span t-if="doc.qa_qc_manager_id.sign" t-field="doc.qa_qc_manager_id.sign"-->
+<!--                                                          t-options='{"widget": "image", "style":"width:150px;height:65px"}'/>-->
+<!--                                                </td>-->
+<!--                                                    <td><span t-field="doc.qa_qc_post_review_comment"/> </td>-->
+<!--                                                </tr>-->
+<!--                                            </t>-->
+<!--                                        </tbody>-->
+<!--                                    </table>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="paper_format_land_scape_reports" model="report.paperformat">
+            <field name="name">Product Realization Plan</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">23</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">125</field>
+            <field name="disable_shrinking" eval="True"/>
+        </record>
+
+        <record id="report_product_realization_plan" model="ir.actions.report">
+            <field name="name">Product Realization Plan</field>
+            <field name="model">inquiry.inquiry</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inquiry.report_product_realization_plan_view</field>
+            <field name="report_file">inquiry.report_product_realization_plan_view</field>
+            <field name="binding_model_id" ref="model_inquiry_inquiry"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paper_format_land_scape_reports"/>
+            <field name="print_report_name">('Product Realization Plan-' + object.name + '.pdf')</field>
+        </record>
+
+    </data>
+</odoo>

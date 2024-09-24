@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_mrp_production_form_view_inherit" model="ir.ui.view">
+            <field name="name">inquiry.mrp.production.form.view.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="inquiry_id" readonly="1"/>
+                    <field name="inquiry_sale_id" invisible="0" readonly="1"/>
+                    <field name="total_operations_employee_cost"/>
+                    <field name="total_operations_workcenter_cost"/>
+                    <field name="total_operation_cost"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='components']" position="attributes">
+                    <attribute name="string">BOM</attribute>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='operations']" position="attributes">
+                    <attribute name="string">Operations</attribute>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="SPECIFICATION TO FOLLOW">
+                        <group>
+                            <field name="specification_to_follow"/>
+                        </group>
+                    </page>
+                    <page string="Comments">
+                        <group>
+                            <field name="report_comment"/>
+                        </group>
+                    </page>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="inquiry_mrp_production_workorder_tree_editable_view_inherit" model="ir.ui.view">
+            <field name="name">inquiry.mrp.production.workorder.tree.editable.view.inherit</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="responsible" column_invisible="1"/>
+                    <field name="department_id"/>
+                    <field name="drawing_no"/>
+                    <field name="work_instructions"/>
+                    <field name="acceptance_criteria"/>
+                    <field name="qc_intervention"/>
+                    <field name="acc_remarks" string="Remarks"/>
+                    <field name="acc_rej" column_invisible="1"/>
+                    <field name="inquiry_id" />
+                    <field name="acc_rej_emp" column_invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='duration']" position="after">
+                    <field name="workcenter_cost" sum="total work center"/>
+                    <field name="employee_count" />
+                    <field name="inquiry_sale_id" />
+                    <field name="total_employee_cost" sum="total employees"/>
+                    <field name="total_cost" sum="total cost"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="client_specification" model="inquiry.qa.qc">
+            <field name="name">
+                Client Specification
+            </field>
+        </record>
+
+        <record id="api_monogrammed_product" model="inquiry.qa.qc">
+            <field name="name">
+                API Monogrammed Product
+            </field>
+        </record>
+
+        <record id="availability_of_technical_details" model="inquiry.qa.qc">
+            <field name="name">
+                Availability of technical details
+            </field>
+        </record>
+
+        <record id="material_ordering_information" model="inquiry.qa.qc">
+            <field name="name">
+                Material Ordering information
+            </field>
+        </record>
+
+        <record id="nde_requirements" model="inquiry.qa.qc">
+            <field name="name">
+                NDE Requirements
+            </field>
+        </record>
+
+        <record id="itp_required_by_contract" model="inquiry.qa.qc">
+            <field name="name">
+                ITP Required by contract
+            </field>
+        </record>
+
+        <record id="availability_of_procedures_wi" model="inquiry.qa.qc">
+            <field name="name">
+                Availability of procedures &amp; WI
+            </field>
+        </record>
+
+        <record id="qualified_personnel_as_needed" model="inquiry.qa.qc">
+            <field name="name">
+                Qualified personnel as needed
+            </field>
+        </record>
+
+        <record id="inspection_test_requirements" model="inquiry.qa.qc">
+            <field name="name">
+                Inspection &amp; Test Requirements
+            </field>
+        </record>
+
+        <record id="pwht_requirements" model="inquiry.qa.qc">
+            <field name="name">
+                PWHT Requirements
+            </field>
+        </record>
+
+        <record id="surface_preparation_painting_phosphating" model="inquiry.qa.qc">
+            <field name="name">
+                Surface Preparation &amp; Painting/Phosphating
+            </field>
+        </record>
+
+        <record id="pressure_test_requirements" model="inquiry.qa.qc">
+            <field name="name">
+                Pressure Test Requirements
+            </field>
+        </record>
+
+        <record id="installation_if_any" model="inquiry.qa.qc">
+            <field name="name">
+                Installation if any
+            </field>
+        </record>
+
+        <record id="sub_contractors_requirements" model="inquiry.qa.qc">
+            <field name="name">
+                Sub-Contractors Requirements
+            </field>
+        </record>
+
+    </data>
+</odoo>

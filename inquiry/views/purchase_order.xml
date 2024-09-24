@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="inquiry_purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">inquiry.purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+
+                <field name="partner_ref" position="after">
+                    <field name="inquiry_id"/>
+                    <field name="bqr_id" domain="[('inquiry_id', '=', inquiry_id)]"/>
+                    <field name="por_id"/>
+                    <field name="mode_of_shipping"/>
+                </field>
+
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                    <field name="inquiry_id" column_invisible="1"/>
+                </xpath>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Approvals">
+                        <group>
+                            <field name="manager_approved" invisible="1"/>
+                            <field name="general_manager_approved" invisible="1"/>
+                            <field name="approvals_id"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//button[@name='button_confirm']" position="before">
+                    <button string="Manager Approve" class="btn btn-primary" type="object" name="inquiry_manager_approve" invisible="manager_approved" groups="purchase.group_purchase_manager"/>
+                    <button string="GM Approve" class="btn btn-primary" type="object" name="inquiry_general_manager_approve" invisible="general_manager_approved" groups="base.group_system"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="inquiry_purchase_manager_approvals_view_tree" model="ir.ui.view">
+            <field name="name">inquiry.purchase.manager.approvals.view.tree</field>
+            <field name="model">purchase.manager.approvals</field>
+            <field name="arch" type="xml">
+                <tree string="inquiry_purchase_manager_approvals_tree">
+                    <field name="name"/>
+                    <field name="first_lvl_amount"/>
+                    <field name="second_lvl_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="inquiry_purchase_manager_approvals_view_form" model="ir.ui.view">
+            <field name="name">inquiry.purchase.manager.approvals.view.form</field>
+            <field name="model">purchase.manager.approvals</field>
+            <field name="arch" type="xml">
+                <form string="_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="first_lvl_amount"/>
+                            <field name="second_lvl_amount"/>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <record id="inquiry_manager_approvals_action" model="ir.actions.act_window">
+            <field name="name">Manager Approvals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.manager.approvals</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="inquiry_manager_approvals_menu_item" name="Manager Approvals"
+                  parent="purchase.menu_purchase_config"
+                  action="inquiry_manager_approvals_action" sequence="90"/>
+
+    </data>
+</odoo>

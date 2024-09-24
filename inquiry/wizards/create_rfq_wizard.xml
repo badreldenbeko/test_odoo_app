@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="bqr_create_rfq_wizard" model="ir.ui.view">
+            <field name="name">bqr.create.rfq.wizard</field>
+            <field name="model">create.rfq.wizard</field>
+            <field name="arch" type="xml">
+                <form string="New RFQ">
+                    <group>
+                        <group string="Vendor Selection">
+                            <field name="partner_id" placeholder="Select Vendor" required="1"
+                                   domain="[('supplier_rank', '&gt;', 0)]"
+                                   context="{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_new_rfq" string="Create" type="object" class="btn-primary"
+                                data-hotkey="c"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="bqr_create_multi_rfq_wizard" model="ir.ui.view">
+            <field name="name">bqr.create.multi.rfq.wizard</field>
+            <field name="model">create.rfq.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Multi RFQ">
+                    <group>
+                        <group string="Vendor Selection">
+                            <field name="partner_id" placeholder="Select Vendor"
+                                   domain="[('supplier_rank', '&gt;', 0)]"
+                                   context="{'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_multi_rfq" string="Create" type="object" class="btn-primary"
+                                data-hotkey="c"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="bqr_create_rfq_wizard_action" model="ir.actions.act_window">
+            <field name="name">Create New RFQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">create.rfq.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="bqr_create_rfq_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="bqr_create_multi_rfq_wizard_action" model="ir.actions.act_window">
+            <field name="name">Create Multi RFQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">create.rfq.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="bqr_create_multi_rfq_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
